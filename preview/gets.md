@@ -1,0 +1,70 @@
+# 겟츠 프로젝트 분석
+## 라이브러리
+- kotlin-stdlib: 코틀린 표준 라이브러리 추가
+- core-ktx: 코틀린 확장 프로그램 세트
+- appcompat: 이전 API 버전의 플랫폼에서 새 API에 액세스
+- material: 머터리얼 디자인 적용 (디자인 가이드 적용 위함, 앱의 테마를 일관성 있게 관리)
+- constraintlayout: constraintlayout 사용
+- lifecycle: 수명 주기 인식 구성 요소로 액티비티, 프래그먼트 같은 구성요소의 수명 주기 상태 변경에 따라 작업 실행
+  - lifecycle-livedata-ktx: 라이브데이터 사용, 뷰모델에서 상태가 있는 변수를 이용하여 값 변경시 UI 함께 변경
+  - lifecycle-viewmodel-ktx: 뷰모델 사용, 프래그먼트간 데이터 공유 목적 -> 원래는 인스턴스 상태 저장 메커지즘 사용하여 데이터 저장해야 소멸되지 않음
+- navigation: 앱 내 대상(액티비티, 프래그먼트, 기타 구성요소) 사이를 탐색하는 프레임워크, 프래그먼트 전환시 라이브러리 이용
+  - navigation-fragment-ktx: 
+  - navigation-ui-ktx: 
+- legacy-support-v4: 이전 버전 지원 라이브러리(**삭제해도 동작!!**)
+- volley: 서버와 네트워크 통신
+- preference-ktx: 환경 설정 화면 빌드
+- junit, espresso-core: 테스트용
+## 아키텍처
+- UI layer
+  - viewmodel
+    - ui/MainViewModel: 메인 액티비티와 옷장, 홈, 제품 프래그먼트에서 사용되어 스크롤 이동에 따른 하단 네비게이션 바의 표시 여부 관리
+    - ui/product/ProductViewModel: 카테고리와 제품 프래그먼트에서 사용되어 카테고리 프래그먼트에서 선택한 타입과 상세를 제품 프래그먼트에서 표시하도록 구현
+    - DashboardViewModel, HomeViewModel은 사용하지 않고 있음(**삭제**)
+    - 변경 가능한 라이브데이터(MutableLiveData)를 변경 불가능한 라이브데이터로 변환하여 노출해야
+    - 뷰모델내 별도 메소드를 통해 라이브데이터 값 변경하도록 수정
+    - 기타 비즈니스 로직 또한 뷰모델로 옮겨야 함
+  - activity 및 fragment
+    - MainActivity
+      - 네비게이션 설정 - appBarConfiguration은 xml파일에서 메뉴를 bottom_nav_menu로 설정했기 때문에 설정 안해도 됨
+      - mainViewModel은 activity-ktx의 val viewModel: MainViewModel by viewModels()처럼 생성 가능
+    - SplashActivity
+      - setTheme: 기존 theme는 로고 띄우기 위해 백그라운드에 이미지 지정 -> 다른 theme로 교체하여 텍스트와 버튼 표시
+      - startMainActivity는 메인 액티비티를 시작하고 만약 사용자가 정보를 입력하지 않았다면 정보 입력 액티비티 시작 / finish로 현재 표시되고 있는 스플래시 액티비티는 종료
+      - login 함수가 Login 액티비티에 중복 정의
+    - sign/LoginActivity
+      - 아이디/비밀번호 자동완성 onResume: 다른 화면 갔다가 오면 자동 완성 실시(onCreate-onStart-onResume-onPause-onStop-onDestroy)
+      - login 함수가 Splash 액티비티에 중복 정의
+    - sign/SignUpActivity
+      - setSpan: 필수 항목 *에 span 적용하여 색칠
+    - ui/account/AccountFragment
+    - ui/account/InfoActivity
+    - ui/account/PasswordActivity
+    - ui/article/ArticleActivity
+    - ui/article/MagazineFragment
+    - ui/closet/ClosetFragment
+    - ui/coordination/CoordinationActivity
+    - ui/home/HomeFragment
+    - ui/home/SliderFragment
+    - ui/product/CategoryFragment
+    - ui/product/ProductActivity
+    - ui/product/ProductFragment
+- Domain layer
+  - 없음
+- Data layer
+  - repository: 없음
+  - data sources: 없음
+  - 네트워크
+    - network/Network
+      - 왜 RequestQueue 별도 설정? -> 서버 인증 기능이 세션 기반이라 쿠키 사용 설정 필요
+      - getInstance(): 싱글톤 패턴으로 구현(앱 전체 기간 동안 지속되는 하나의 인스턴스만 생성되도록 함)
+      - 각종 URL: companion object(싱글톤, 클래스 이름으로 호출 가능)에 컴파일 시간에 결정되는 상수(const val -> static final)로 정의
+      - addSimpleRequest(): result에 boolean 반환하기로 약속된 간단한 요청 실행
+      - imageLoader: 익명 객체로 volley의 ImageLoader.ImageCache를 구현
+      - requestQueue: 쿠키 핸들러를 사용 설정 -> 인증 기능에 사용
+- 아키텍처 관점 문제점 진단
+  - 모든 비즈니스 로직을 UI 클래스에서 함께 처리 -> 뷰 관련 로직은 뷰모델로, 네트워크 관련 로직은 데이터 레이어로 분리
+## 디자인 패턴
+- 싱글톤
+  - Network: 앱 전체 기간 동안 지속되는 하나의 인스턴스만 생성되도록 함
+  - 
