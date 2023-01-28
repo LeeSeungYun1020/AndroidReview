@@ -37,6 +37,12 @@
       - login 함수가 Splash 액티비티에 중복 정의
     - sign/SignUpActivity
       - setSpan: 필수 항목 *에 span 적용하여 색칠
+      - 각 수행 동작을 함수로 분리하긴 했으나 뷰 모델에 정의하고 뷰에 반영하도록 개선 필요
+      - Calendar.getInstance().get(Calendar.YEAR)로 생일 선택 다이얼로그 변경 필요
+      - as? 연산은 클래스캐스트예외 발생되신 null을 반환
+      - ?.은 null이 아닌 경우 실행, null인 경우 null 반환
+      - helperText는 굳이 null로 전환할 필요는 없음
+      - signup 함수에서 sharedPreference commit -> apply 고려사항
     - ui/account/AccountFragment
     - ui/account/InfoActivity
     - ui/account/PasswordActivity
