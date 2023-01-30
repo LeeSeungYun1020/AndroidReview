@@ -15,6 +15,7 @@
 - volley: 서버와 네트워크 통신
 - preference-ktx: 환경 설정 화면 빌드
 - junit, espresso-core: 테스트용
+
 ## 아키텍처
 - UI layer
   - viewmodel
@@ -44,17 +45,46 @@
       - helperText는 굳이 null로 전환할 필요는 없음
       - signup 함수에서 sharedPreference commit -> apply 고려사항
     - ui/account/AccountFragment
+      - PreferenceFragment 사용
+      - 네비게이션 사용하여 이동하도록 개선 가능(Ex: 로그아웃시 로그인 액티비티로 이동)
+      - 로그아웃 실패 처리가 미흡함
+      - 디자인에 따라 divider 교체하기 위해 setDivider 호출하였고 높이가 지정되지 않은 drawable은 setDividerHeight도 호출 필요
     - ui/account/InfoActivity
+      - 다른 곳과 마찬가지로 뷰모델로 분리 필요
+      - validateData -> buttonGroup의 -1은 View.NO_ID로 교체
+      - enum class의 values()로 string을 받아와 ArrayAdapter 구성
     - ui/account/PasswordActivity
+      - 비밀번호 변경시 현재 비밀번호를 서버에서 확인하는 것이 아니라 preference에서 확인하는 논리적 오류
     - ui/article/ArticleActivity
+      - string resource 이용하여 서버에서 가져오는 데이터의 언어 지정(Ex: tag_en, description_en)
+      - articleImageListRequest는 이미지 id가 담긴 JSON 배열을 받아와 각 이미지 별로 이미지 요청
+      - 이미지 슬라이더(뷰 페이저) 로직에서 받아온 이미지는 리스트에 추가되며 어댑터에 notifyItemInserted로 통보
+      - 이미지 슬라이더(뷰 페이저)에는 의류 사진 표시, 카드 리스트에는 코디 사진 표시
+      - ui/home의 슬라이더 프래그먼트 이용
     - ui/article/MagazineFragment
+      - 없는 화면(삭제) 필요
     - ui/closet/ClosetFragment
+      - binding.closetRecycler에 apply 적용 가능
+      - 리사이클러 뷰에서 아래(데이터 파트)의 카드 아이템 사용
     - ui/coordination/CoordinationActivity
+      - 네트워크로 좋아요 체크하는 동안 좋아요 버튼을 누를 경우 오작동할 수 있음
     - ui/home/HomeFragment
+      - viewPager가 지역변수로 사용되어야 함
+      - private const val은 파일 내에서만 사용하는 상수
+      - 좋아요 버튼 처리 코드 또 등장
+      - ScreenSlidePagerAdapter 사용
+      - ZoomOutPageTransformer -> Google 예제 코드 그대로 가져옴
     - ui/home/SliderFragment
+      - newInstance 제공
     - ui/product/CategoryFragment
+      - t
+      - t
     - ui/product/ProductActivity
+      - t
+      - t
     - ui/product/ProductFragment
+      - t
+      - t
 - Domain layer
   - 없음
 - Data layer
@@ -68,9 +98,36 @@
       - addSimpleRequest(): result에 boolean 반환하기로 약속된 간단한 요청 실행
       - imageLoader: 익명 객체로 volley의 ImageLoader.ImageCache를 구현
       - requestQueue: 쿠키 핸들러를 사용 설정 -> 인증 기능에 사용
+      - 오류 처리 부분 코드가 유사하게 반복되는데 이를 함수 형태로 뽑아낼 수 있음
+  - 데이터
+    - ui/product/CardItem
+      - string 타입을 이용하여 제품, 코디 분류 -> enum class로 변환하고 when 사용할 때, else가 아닌 해당 타입 명시
+      - 뷰 홀더를 사용하는 이유: 데이터 많아질 경우 findViewById 호출이 많은 비용 소모(childView를 모두 확인해 가져옴) -> 리스트뷰와 리사이클러뷰의 차이 중 하나가 리사이클러뷰눈 뷰 홀더 구현을 강제한다는 점
+    - ui/ActionBar
+      - actionBar 공통 지정 작업 수행하는 확장 함수 포함
+      - 특정 디자인 적용하기 위해 커스텀 옵션 사용
 - 아키텍처 관점 문제점 진단
   - 모든 비즈니스 로직을 UI 클래스에서 함께 처리 -> 뷰 관련 로직은 뷰모델로, 네트워크 관련 로직은 데이터 레이어로 분리
+
 ## 디자인 패턴
 - 싱글톤
   - Network: 앱 전체 기간 동안 지속되는 하나의 인스턴스만 생성되도록 함
-  - 
+- 뷰 바인딩
+  - findViewById 없이 xml과 연결된 뷰 사용 가능 -> 코드 작성시 실수 방지, 자동 완성으로 효율성 향상
+
+## 기타
+- 범위 지정 함수
+  - 객체 컨택스트 내에서 코드 블록을 실행(함수 호출로 임시 범위 형성) -> 이름 없이 개체에 액세스
+  - let: it, 람다 결과, 확장함수, 
+  - run: this, 람다 결과, 확장함수, 
+  - run: 없음, 람다 결과, 수신 객체 없이 호출(바로 run{})
+  - with: this, 람다 결과, 인자로 받음(with(some){})
+  - apply: this, 수신 객체, 확장함수,
+  - also: it, 수신 객체, 확장함수
+- 이미지뷰의 scaleType
+  - CENTER: 스케일링 없이 이미지를 중앙 정렬
+  - CENTER_CROP: 이미지 가로세로 비율을 유지하면서 가로세로 이상으로 확대하여 중앙 정렬
+  - CENTER_INSIDE: 이미지 가로세로 비율을 유지하면서 가로세로 이하로 축소하여 중앙 정렬(이미지뷰보다 작다면 원본 크기 유지)
+  - FIT_CENTER: 이미지 가로세로 비율을 유지하면서 가로세로 중 긴쪽을 이미지뷰에 맞추어 중앙 정렬(이미지 크기가 이미지뷰 크기에 따라 변화)
+  - FIT_XY: 가로세로 비율에 상관없이 각 면에 꽉 차게 출력
+  - MATRIX: 이미지 가로세로 비율과 크기를 유지하며 왼쪽 상단을 기준으로 출력
