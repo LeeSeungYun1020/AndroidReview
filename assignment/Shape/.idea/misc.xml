@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.196" />
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/drawable/convertable_gradation_button.xml" value="0.1335" />
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/drawable/dashed_gradation_button.xml" value="0.1335" />
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/drawable/normal_gradation_button.xml" value="0.1335" />
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/drawable/red_button.xml" value="0.1335" />
+        <entry key="..\:/develop/project/AndroidReview/assignment/Shape/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

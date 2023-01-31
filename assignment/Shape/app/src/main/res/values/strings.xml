@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Shape</string>
+    <string name="red_button">Red button</string>
+    <string name="gradation_button">Gradation button</string>
+</resources>
