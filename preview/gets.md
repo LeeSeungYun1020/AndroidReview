@@ -77,14 +77,16 @@
     - ui/home/SliderFragment
       - newInstance 제공
     - ui/product/CategoryFragment
-      - t
-      - t
+      - productFragement와 productViewModel 공유(productFragment에 의해 실행됨)
+      - 레이아웃이 include 형태로 구현되어 있기 때문에 binding을 이용하여 텍스트 및 이미지 설정
+      - component_accordion_contents에 textView 목록이 10개 까지 정의 -> 동적으로 생성하도록 하는게 좋았을 것(갯수 예외 처리는 되어있음)
     - ui/product/ProductActivity
-      - t
-      - t
+      - 제품 정보 받아와 표시
+      - 이미지 리퀘스트 중첩 어떻게 해결할 수 있을까
+      - 좋아요 버튼 코드 중복
     - ui/product/ProductFragment
-      - t
-      - t
+      - 표시할 제품의 카테고리 설정을 위한 productViewModel, 스크롤에 따라 네비게이션 visibility를 조정할 mainViewModel로 구성
+      - CardListAdapter의 타입은 제품 또는 코디 같이 표시할 타입, 태그는 네트워크 작업 취소용으로 지정 -> 두 개를 다른 값으로 지정하는 것이 좋았을듯, 특히 타입은 enum으로 구성 필요
 - Domain layer
   - 없음
 - Data layer
