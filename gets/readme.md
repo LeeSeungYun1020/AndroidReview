@@ -120,3 +120,80 @@ android:dashGap="integer"/>
 
 - AppCompatTheme 사용을 위해서는 AppCompatActivity 사용이 필요
 
+## Gradle
+
+- build.gradle(project), build.gradle(module), settings.gradle 존재
+
+### settings.gradle
+
+- 참여할 프로젝트 인스턴스의 계층 구조를 인스턴스화하고 구성하는데 필요한 구성을 정의
+- 프로젝트 이름과 모듈을 확인
+
+#### poject module로 dependency 추가
+
+- volley 라이브러리를 이용하여 테스트
+    - 해당 라이브러리의 소스코드 다운로드
+    - module을 import
+    - settings.gradle에 include ':volley' 추가
+    - module(app)의 build.gradle의 dependencies에 implementation project(":volley") 추가
+    - 단, volley의 경우 ErrorProne 라이브러리의 이슈로 추가 작업 필요
+
+### build.gradle(project)
+
+- repositories: dependency를 가져올 저장소 설정
+    - jcenter는 지원 종료
+    - maven에서 라이브러리 버전, 버전별 dependency, sample code 확인 가능
+- dependencies: 그레이들 관련 플러그인 로드
+    - Android Gradle Plugin: 구글이 제공하는 gradle supporting 도구
+    - AGP 버전이 여기에 기술
+    - gradle 버전은 gradle-wrapper.properties에서 확인
+    - 이전 버전에서는 gradle과 AGP 버전이 일치하지 않을 수 있음
+
+### build.gradle(module)
+
+- compileSdkVersion: 컴파일할 때 사용할 SDK 버전, sdk 버전 올릴 때에는 추가, 삭제, 수정된 변경사항 확인 필수
+- buildToolsVersion: SDK 빌드 도구의 버전
+- minSdkVersion: 최소 지원 SDK 버전
+- targetSdkVersion: 주요 목표로 하는 버전, 일반적으로 compileSdkVersion과 동일하게 정의하는 것이 권장
+- versionCode: 앱의 버전 코드, play store 업데이트를 위해서는 이전 버전 이상으로 설정해야 함
+- versionName: 사용자에게 표시되는 앱의 버전 이름
+
+#### plugins의 com.android.application과 com.android.library
+
+- Android 라이브러리는 구조적으로 앱 모듈과 동일
+- 라이브러리는 APK 대신 AAR파일로 컴파일
+- AAR파일은 Android 리소스와 manifest 파일이 포함됨 -> 클래스와 메서드 외 레이아웃, 드로어블 같은 리소스 번들로 구성 가능
+
+#### maxSdkVersion
+
+- manifest의 <uses-sdk>
+    - android 2.0.1 미만에서 최대 sdk version 정의에 사용(이후 버전에서는 무시됨)
+    - google play store에서 필터링시에도 사용되었음
+    - 개발 권장사항을 따른 경우 새 버전에서도 호환되며 업데이트 후에 앱이 사용자 기기에서 삭제되는 문제가 있어 제거됨
+- manifest의 <uses-permission>
+    - 앱에 권한을 부여해야 하는 최상위 API 레벨 정의에 사용
+    - 특정 API 수준 이상에서 필요하지 않는 경우 설정(Ex: WRITE_EXTERNAL_STORAGE)
+
+#### android
+
+- buildTypes
+    - debug, release 등 빌드 타입 지정 가능
+    - minifyEnabled: 난독화(디컴파일링 방지, 코드 보안 강화), 최적화(미사용 코드 제거)
+    - shringResources: 사용하지 않는 리소스 제거 (동적으로 리소스 접근하거나 타모듈 접근하는 경우 문제 발생 가능)
+    - proguardFiles: 난독화 제외할 파일 정의, 사용될 코드의 의도치 않은 삭제 방지
+- compileOptions
+    - sourceCompatibility는 컴파일에 사용할 JDK 버전을, targetCompatibility는 바이트코드가 생성될 JDK 버전 정의
+- kotlinOptions
+    - jvmTarget 설정
+- buildFeatures
+    - 프로젝트에 사용할 빌드 기능 활성화
+    - viewBinding, compose, buildConfig, prefab 등
+
+#### dependencies
+
+- 라이브러리 업데이트, 삭제, 마이그레이션시 테스트
+    - side effect를 미리 고려 -> 코드 작성할 때 에러 예방하도록 작성
+    - support 라이브러리는 androidx로 이전
+- 라이브러리 도입
+    - 기능의 장단점과 도입시 문제점 분석 필요
+
