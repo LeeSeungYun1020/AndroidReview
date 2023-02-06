@@ -243,3 +243,42 @@ android:dashGap="integer"/>
   따라 세그먼트 추가
     - 제품 버전으로 Google play store에 앱 개시시 free, pro 버전 별도 관리 가능
     - 빌드 유형을 통해 하나의 기기에 디버그 빌드와 릴리즈 빌드를 모두 설치 가능
+- 특정 빌드 변형에 디펜던시를 적용하려면 빌드 구성(configuration)을 대문자로 바꾸고 앞에 제품 버전 또는 빌드 유형 붙이면 됨
+- 단, 제품 버전과 빌드 유형이 결합된 경우, configurations 블록에서 구성 이름을 초기화해야 함
+
+## Code
+
+### Flow chart
+
+- 개발자 대상의 발표에서는 activity와 fragment를 분리하여 표현하는 것이 좋음
+- 흐름도와 함께 화면별 스크린샷을 포함하여 이해도 높여야
+
+### SplashActivity
+
+- 어플리케이션 실행 전 필요한 로딩 등에 소요되는 시간에 로고 표시
+- 현재 구현된 스플래시 화면은 로고 표시 뿐만 아니라 intro 기능을 포함하므로 IntroActivity가 적당
+- viewBinding을 전체적으로 적용하는 것을 권장
+
+### MainActivity
+
+- LoginActivity에서 미리 MainActivity를 띄운 상태에서 InfoActivity가 finish로 종료될 때 표시되는 방식으로 구현
+- InfoActivity에서 입력 완료시 intent를 통해 MainActivity 실행하는 방향으로 개선
+
+### ViewModel
+
+- UI에 상태를 노출하고 관련 비즈니스 로직을 캡슐화
+- UI 상태를 캐시하여 이동 및 구성 변경에도 유지
+- 뷰모델의 수명주기는 ViewModelStoreOwner scope와 직접 연결되어 Owner가 사라질 때까지 메모리에 유지
+- 테스트 코드 작성에도 유리
+- 여러 번 요청해도 같은 인스턴스 반환
+- 소멸될 때 onCleared 메소드가 호출, 뷰모델 수명주기를 따르는 모든 작업 및 종속 항목 정리 가능
+
+### Data
+
+- 이진수 값을 사용하여 계산을 이용하나 10진수로 표현하여 가독성 낮추고 있음
+- 10진수 표현은 2진수로 교체하고 + 연산도 or 연산으로 대체 가능
+
+### Activity에서 companion object 사용
+
+- 불필요하게 Activity 클래스가 로드됨
+- 상수 값은 별도의 클래스로 분리하여 관리하는 것이 적합
