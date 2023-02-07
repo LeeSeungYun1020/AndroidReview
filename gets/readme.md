@@ -283,16 +283,59 @@ android:dashGap="integer"/>
 - 불필요하게 Activity 클래스가 로드됨
 - 상수 값은 별도의 클래스로 분리하여 관리하는 것이 적합
 
-
 ### UI 라이브러리 사용에서 주의할 점
+
 - 디자이너의 개성 존중 필요
 - 해당 UI 라이브러리에서 제공하는 컴포넌트가 원하는 기능 또는 디자인을 제공하지 않는다고 해서 기술적 제약 사항인 것은 아님
 - UI 컴포넌트를 사용하기 전에 해당 class를 열어보고 어떤 클래스의 하위 클래스인지 확인
 - 라이브러리 문서에서 하위호환성 및 지원하는 버전 확인 필요
 
+### Material design의 TextInputLayout
+
+- TextInputLayout은 color, shape, editText 사용 가능 여부, leading/trailing icon, label, EditText가 활성화되었을 때 속성,
+  helper/error/counter 텍스트 표시, prefix/suffix 텍스트 정의, style 적용
+- 텍스트 필드는 TextInputLayout과 TextInputEditText로 구성
+- 드롭다운 메뉴는 TextInputLayout과 AutoCompleteTextView 이용
+- 내부의 TextInputEditText, AutoCompleteTextView에는 입력 텍스트와 관련된 부분 설정(나머지 추가 기능은 TextInputLayout에 적용)
+
 ### findViewById
+
 - 널 안전성을 보장하지 않음(런타임에서 레이아웃과 코드 사이의 호환성 점검)
-  - 바인딩을 사용하면 컴파일 단계에서 미리 확인
+    - 바인딩을 사용하면 컴파일 단계에서 미리 확인
 - 런타임에서 뷰를 참조하므로 성능 이슈가 발생
-  - findViewById는 내부적으로 findViewTraversal 함수를 호출
-  - id가 일치할 때까지 자식 뷰에 대해 반복문으로 findViewById가 재귀호출
+    - findViewById는 내부적으로 findViewTraversal 함수를 호출
+    - id가 일치할 때까지 자식 뷰에 대해 반복문으로 findViewById가 재귀호출
+
+### Activity, Fragment, View
+
+#### Activity
+
+- Android 시스템은 main 함수가 아닌 수명 주기의 특정 단계에 해당하는 메소드를 호출하여 Activity 인스턴스의 코드 시작
+- 앱은 항상 동일한 위치에서 시작되지 않음
+- 특정 앱을 호출할 때 앱을 전체적으로 호출하는 것이 아니라 앱의 액티비티를 호출
+- Manifest에서 액티비티 등록해야
+- onCreate > onStart > onResume > onPause > onStop > onDestroy
+
+#### Fragment
+- 앱 UI의 재사용 가능한 부분 나타냄, 자체 레이아웃을 정의하고 관리하며 자체 수명 주기를 보유하며 자체 입력 이벤트를 처리할 수 있음
+- 액티비티나 다른 프래그먼트에서 호스팅되어야 함
+- 프래그먼트는 모듈화를 통한 재사용성과 성능 면에서 이점
+  - UI 단위로 뷰와 해당 로직 분리하여 유연한 UI 디자인 가능
+  - 여러 액티비티에서 사용 가능(같은 액티비티에서도 여러 프래그먼트 인스턴스 사용 가능)
+  - 액티비티 생성보다 상대적으로 가벼움, 메모리 관점에서 효율적
+  - 호스트 구성 요소(액티비티)에 공통 데이터를 저장하거나 뷰 모델을 이용하여 데이터를 공유하고 데이터 변경에 대처할 수 있음
+- onCreate > onCreateView > onViewCreated > onViewStateRestored > onStart > onResume > onPause > onStop > onSaveInstanceState > onDestroyView > onDestroy
+
+#### View
+- UI 컴포넌트, 화면의 직사각형 영역을 차지, 그리기와 이벤트 처리 담당
+- View 객체를 일반적으로 Widget이라고 함
+- View는 프로퍼티 설정, 포커스 설정, 리스너 부착, visibility 설정 가능
+- ViewGroup은 View의 하위 클래스이자 레이아웃의 기본 클래스, 여러 뷰와 뷰 그룹을 가지고 있는 보이지 않는 컨테이너(LinearLayout, ConstraintLayout, ...)
+- 레이아웃이 그려지는 과정은 measure와 layout 과정이 있음
+  - 먼저 매저 단계에서 부모 뷰가 자식 뷰를 순차적으로 측정
+  - 레이아웃 단계에서 측정된 크기를 바탕으로 모든 자식 뷰의 위치 배정
+- 뷰도 자체 상태를 관리
+  - Android 프레임워크에서 제공하는 모든 뷰에는 자체 onSaveInstanceState, onRestoreInstanceState 함수가 구현
+  - 뷰 상태를 유지하려면 뷰에 ID가 필요
+  - 개발자가 만든 view에서는 제공하지 않음
+- onAttachToWindow > measure > onMeasure > layout > onLayout > dispatchDraw > draw > onDraw
