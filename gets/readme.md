@@ -44,41 +44,41 @@
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<shape
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:shape=["rectangle" | "oval" | "line" | "ring"] >
-<corners
-android:radius="integer"
-android:topLeftRadius="integer"
-android:topRightRadius="integer"
-android:bottomLeftRadius="integer"
-android:bottomRightRadius="integer"/>
-<gradient
-android:angle="integer"
-android:centerX="float"
-android:centerY="float"
-android:centerColor="integer"
-android:endColor="color"
-android:gradientRadius="integer"
-android:startColor="color"
-android:type=["linear" | "radial" | "sweep"]
+<shape 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape=["rectangle" | "oval" | "line" | "ring"] >
+    <corners
+        android:radius="integer"
+        android:topLeftRadius="integer"
+        android:topRightRadius="integer"
+        android:bottomLeftRadius="integer"
+        android:bottomRightRadius="integer"/>
+    <gradient
+        android:angle="integer"
+        android:centerX="float"
+        android:centerY="float"
+        android:centerColor="integer"
+        android:endColor="color"
+        android:gradientRadius="integer"
+        android:startColor="color"
+        android:type=["linear" | "radial" | "sweep"]
         android:useLevel=["true" | "false"] />
-<padding
-android:left="integer"
-android:top="integer"
-android:right="integer"
-android:bottom="integer"/>
-<size
-android:width="integer"
-android:height="integer"/>
-<solid
-android:color="color"/>
-<stroke
-android:width="integer"
-android:color="color"
-android:dashWidth="integer"
-android:dashGap="integer"/>
-        </shape>
+    <padding
+        android:left="integer"
+        android:top="integer"
+        android:right="integer"
+        android:bottom="integer"/>
+    <size
+        android:width="integer"
+        android:height="integer"/>
+    <solid
+        android:color="color"/>
+    <stroke
+        android:width="integer"
+        android:color="color"
+        android:dashWidth="integer"
+        android:dashGap="integer"/>
+</shape>
 ```
 
 ### 해상도 수치
@@ -317,25 +317,59 @@ android:dashGap="integer"/>
 - onCreate > onStart > onResume > onPause > onStop > onDestroy
 
 #### Fragment
+
 - 앱 UI의 재사용 가능한 부분 나타냄, 자체 레이아웃을 정의하고 관리하며 자체 수명 주기를 보유하며 자체 입력 이벤트를 처리할 수 있음
 - 액티비티나 다른 프래그먼트에서 호스팅되어야 함
 - 프래그먼트는 모듈화를 통한 재사용성과 성능 면에서 이점
-  - UI 단위로 뷰와 해당 로직 분리하여 유연한 UI 디자인 가능
-  - 여러 액티비티에서 사용 가능(같은 액티비티에서도 여러 프래그먼트 인스턴스 사용 가능)
-  - 액티비티 생성보다 상대적으로 가벼움, 메모리 관점에서 효율적
-  - 호스트 구성 요소(액티비티)에 공통 데이터를 저장하거나 뷰 모델을 이용하여 데이터를 공유하고 데이터 변경에 대처할 수 있음
-- onCreate > onCreateView > onViewCreated > onViewStateRestored > onStart > onResume > onPause > onStop > onSaveInstanceState > onDestroyView > onDestroy
+    - UI 단위로 뷰와 해당 로직 분리하여 유연한 UI 디자인 가능
+    - 여러 액티비티에서 사용 가능(같은 액티비티에서도 여러 프래그먼트 인스턴스 사용 가능)
+    - 액티비티 생성보다 상대적으로 가벼움, 메모리 관점에서 효율적
+    - 호스트 구성 요소(액티비티)에 공통 데이터를 저장하거나 뷰 모델을 이용하여 데이터를 공유하고 데이터 변경에 대처할 수 있음
+- onCreate > onCreateView > onViewCreated > onViewStateRestored > onStart > onResume > onPause > onStop >
+  onSaveInstanceState > onDestroyView > onDestroy
 
 #### View
+
 - UI 컴포넌트, 화면의 직사각형 영역을 차지, 그리기와 이벤트 처리 담당
 - View 객체를 일반적으로 Widget이라고 함
 - View는 프로퍼티 설정, 포커스 설정, 리스너 부착, visibility 설정 가능
 - ViewGroup은 View의 하위 클래스이자 레이아웃의 기본 클래스, 여러 뷰와 뷰 그룹을 가지고 있는 보이지 않는 컨테이너(LinearLayout, ConstraintLayout, ...)
 - 레이아웃이 그려지는 과정은 measure와 layout 과정이 있음
-  - 먼저 매저 단계에서 부모 뷰가 자식 뷰를 순차적으로 측정
-  - 레이아웃 단계에서 측정된 크기를 바탕으로 모든 자식 뷰의 위치 배정
+    - 먼저 매저 단계에서 부모 뷰가 자식 뷰를 순차적으로 측정
+    - 레이아웃 단계에서 측정된 크기를 바탕으로 모든 자식 뷰의 위치 배정
 - 뷰도 자체 상태를 관리
-  - Android 프레임워크에서 제공하는 모든 뷰에는 자체 onSaveInstanceState, onRestoreInstanceState 함수가 구현
-  - 뷰 상태를 유지하려면 뷰에 ID가 필요
-  - 개발자가 만든 view에서는 제공하지 않음
+    - Android 프레임워크에서 제공하는 모든 뷰에는 자체 onSaveInstanceState, onRestoreInstanceState 함수가 구현
+    - 뷰 상태를 유지하려면 뷰에 ID가 필요
+    - 개발자가 만든 view에서는 제공하지 않음
 - onAttachToWindow > measure > onMeasure > layout > onLayout > dispatchDraw > draw > onDraw
+
+### SharedPreference에서 commit과 apply
+
+- 변경 사항을 에디터에서 편집 중인 SharedPreferences 객체로 커밋
+- 요청된 수정사항은 원자적으로 수행되며 원래 저장된 값을 대체
+- 여러 editor가 preference를 동시에 변경하려는 경우 마지막으로 commit, apply한 내역이 반영
+- apply()는 메모리에 있는 SharedPreferences에 즉시 값을 변경, 디스크에는 비동기적으로 씀
+    - 성공 여부에 대해 알림 받지 않음(성공 여부 값 반환 X)
+    - 다른 editor가 commit 중일 경우 모든 비동기 커밋이 완료될 때까지 커밋이 차단됨
+    - 다른 안드로이드 컴포넌트의 수명 주기에 대해 걱정할 필요 없음 프레임워크는 상태를 전환하기 전에 apply의 디스크 쓰기가 완료되었는지 확인
+- commit()은 데이터를 디스크에 동기적으로 씀
+    - UI 렌더링이 일시중지 될 수 있으므로 기본 스레드에서 호출하는 것을 피해야 함
+
+### Thread, Handler, Looper
+
+- 스레드
+    - 프로세스 내에서 실행되는 흐름의 단위
+    - Thread 클래스를 상속받거나 Runnable 인터페이스를 구현하여 사용
+    - Android 앱은 기본 스레드를 사용하여 UI 작업 처리
+    - 기본 스레드에서 장기 수행 작업 호출하면 앱이 응답하지 않는 문제 발생
+    - 기본 스레드는 UI 작업을 계속 처리하고 백그라운드 스레드를 통해 장기 실행 작업 처리
+- 핸들러
+    - 다른 스레드에서 실행될 작업을 큐에 추가 가능
+    - 작업을 실행할 스레드를 지정하면 스레드에 루퍼를 이용하여 핸들러를 구성
+    - 핸들러를 만든 후에는 post 메소드를 사용하여 해당 스레드에서 코드 블록을 실행 가능
+- 루퍼
+    - 연결된 스레드의 메시지 루프를 실행하는 객체
+    - 스레드당 하나의 루퍼가 있으며 메시지 큐가 각각 존재
+    - 메시지 큐에 스레드가 처리해야 할 동작이 쌓이고 큐의 메시지를 순차적으로 핸들러에 전달
+
+-> 기본 스레드가 가지고 있는 루퍼의 메시지 큐에 다른 스레드에서 실행될 작업을 담아 기본 스레드의 핸들러가 수행하도록 구현 가능
