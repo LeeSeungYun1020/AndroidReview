@@ -64,5 +64,5 @@ dependencies {
     implementation(project(":sub1"))
     implementation(project(":sub2"))
     implementation "com.google.accompanist:accompanist-webview:0.28.0"
-    implementation "io.coil-kt:coil-compose:2.2.2"
+    runtimeOnly "io.coil-kt:coil-compose:2.2.2"
 }
