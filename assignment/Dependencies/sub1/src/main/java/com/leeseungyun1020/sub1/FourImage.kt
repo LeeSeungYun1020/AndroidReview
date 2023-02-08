@@ -10,12 +10,12 @@ import com.leeseungyun1020.sub2.MyImage
 fun FourImage() {
     Column {
         Row {
-            MyImage(Modifier.weight(1f))
-            MyImage(Modifier.weight(1f))
+            MyImage()
+            MyImage()
         }
         Row {
-            MyImage(Modifier.weight(1f))
-            MyImage(Modifier.weight(1f))
+            MyImage()
+            MyImage()
         }
     }
 }

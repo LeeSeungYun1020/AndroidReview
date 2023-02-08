@@ -6,7 +6,7 @@ import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewState
 
 @Composable
-fun Google(state:WebViewState = rememberWebViewState("https://google.com")) = WebView(
+fun Wiki(state:WebViewState = rememberWebViewState("https://wikipedia.org")) = WebView(
     state = state,
     onCreated = { it.settings.javaScriptEnabled = true }
 )
