@@ -32,3 +32,24 @@
 - 내 앱이 다른 앱을 불필요하게 종료한다면, 나중에 다른 앱을 완전히 다시 시작해야하므로 캐시된 앱을 재시작하는 것보다 훨씬 더 많은 리소스가 필요합니다. 이는 시스템 성능을
   저하시키고 배터리 소모를 증가시킬 수 있습니다.
 
+#### 보안
+
+##### 설치 가능한 최소 타겟 API 레벨
+
+- targetSdkVersion이 23 미만인 앱은 설치할 수 없습니다.
+- 맬웨어는 오래된 API 레벨을 타겟하여 새로운 안드로이드 버젼에서 적용된 보안과 개인 정보 보호를 우회합니다.
+- 대표적으로 Android 6.0(API level 23)에서 도입된 런타임 퍼미션 모델을 회피하기 위해 targetSdkVersion을 22로 하는 멜웨어 앱이 있습니다.
+- 낮은 API 레벨을 타겟팅하는 앱을 설치하려고 시도하면 설치가 실패하며 Logcat에 INSTALL_FAILED_DEPRECATED_SDK_VERSION: App package
+  must target at least SDK version 23, but found 7가 표시됩니다.
+- Android 14로 업그레이드하는 장치에 기존에 설치된 앱은 그대로 유지되며, ADB 명령어 adb install --bypass-low-target-sdk-block
+  FILENAME.apk를 통해 이전 API 레벨의 앱을 설치하여 테스트할 수 있습니다.
+
+##### 미디어 owner package name이 수정될 수 있습니다.
+
+- 미디어 저장소는 특정 미디어 파일을 저장한 앱을 나타내는 OWNER_PACKAGE_NAME 칼럼에 대한 쿼리를 지원합니다.
+- Android 14 부터는 다음 조건 중 하나 이상이 참인 경우 이 값이 수정됩니다.
+  - 항상 다른 앱이 볼 수 있는 패키지 이름으로 된 미디어 파일을 저장한 앱
+  - QUERY_ALL_PACKAGES 권한을 요청하며 미디어 저장소를 쿼리하는 앱
+    - Google Play는 위험하거나 민감한 권한을 사용하는 것을 제한하고 있습니다. 따라서 QUERY_ALL_PACKAGES 권한이 앱의 주요 목적에 사용되는
+      경우에만 사용가능하며 Play의 정책 요구사항을 만족하는 경우에만 Google Play에 게시될 수 있습니다.
+
