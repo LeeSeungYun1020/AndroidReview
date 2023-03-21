@@ -121,3 +121,14 @@
 - 최대 200% 스케일링과 저시력 사용자를 위해 WCAG(Web Content Accessibility Guidelines)에 맞게 정렬하는 추가적인 접근성 옵션을 지원합니다.
 - 텍스트에 sp 단위를 사용하고 있다면 앱에 큰 영향은 없을 것으로 예상됩니다. 그러나 앱이 사용성에 영향을 주지 않는지 200% 스케일링을 적용한 상태에서 UI 테스트가
   필요합니다.
+
+### Android 14를 타겟팅하는 앱에 적용되는 사항
+
+#### 핵심 기능
+
+##### 포그라운드 서비스의 타입이 요구됨
+- 앱의 각 포그라운드 서비스에는 하나 이상의 포그라운드 서비스 타입이 명시되어야 합니다.
+- 시스템은 특정 유즈케이스를 충족하기 위해 특정 포그라운드 서비스 타입을 기대합니다.
+  - Android 14에서는 health, remote messaging, short services, special use cases, system exemptions 같은 포그라운드 서비스 타입을 도입하였습니다.
+- 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을 WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히 추천합니다.
+
