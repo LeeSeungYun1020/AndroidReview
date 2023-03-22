@@ -127,8 +127,37 @@
 #### 핵심 기능
 
 ##### 포그라운드 서비스의 타입이 요구됨
+
 - 앱의 각 포그라운드 서비스에는 하나 이상의 포그라운드 서비스 타입이 명시되어야 합니다.
 - 시스템은 특정 유즈케이스를 충족하기 위해 특정 포그라운드 서비스 타입을 기대합니다.
-  - Android 14에서는 health, remote messaging, short services, special use cases, system exemptions 같은 포그라운드 서비스 타입을 도입하였습니다.
-- 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을 WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히 추천합니다.
+    - Android 14에서는 health, remote messaging, short services, special use cases, system exemptions
+      같은 포그라운드 서비스 타입을 도입하였습니다.
+- 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을 WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히
+  추천합니다.
+
+#### 보안
+
+##### 암시적 인텐트와 펜딩 인텐트의 제한 사항
+
+- 암시적 인텐트는 exported 컴포넌트에만 전달됩니다. exported 되지 않은 컴포넌트에 인텐트를 전달하려면 명시적 인텐트를 사용해야 합니다.
+- 변경할 수 있는(MUTABLE) 펜딩 인텐트를 컨포넌트 또는 패키지 명시 없이 생성하면 시스템이 예외를 발생시킵니다.
+- 변경 사항으로 악성 앱이 앱의 내부 컴포넌트를 실행할 목적으로 생성한 암시적 인텐트를 가로챌 수 없도록 보호합니다.
+
+```kotlin
+val explicitIntent = Intent("com.example.action.APP_ACTION")
+explicitIntent.apply {
+    package = context.packageName
+}
+context.startActivity(explicitIntent)
+```
+
+##### 런타임에 등록된 브로드캐스트 리시버는 export 동작을 명시해야 합니다.
+
+- 컨텍스트에 등록되는 리시버는 디바이스의 모든 앱에 내보낼지 여부를 플래그로 지정해야 합니다.
+- Android 13 에서 추가된 기능(모든 앱이 동적으로 등록된 리시버로 보호되지 않은 리시버를 보낼 수 있는 문제 해결)을 강제하여 보안 취약성으로부터 앱을 보호할 수
+  있습니다.
+
+##### 시스템 브로드캐스트만 수신하는 리시버에 예외 발생
+
+- 시스템 브로드캐스트만을 수신하는 리시버를 컨텍스트에 등록할 때, flag를 지정하면 얘외가 발생합니다.
 
