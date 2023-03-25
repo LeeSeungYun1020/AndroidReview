@@ -181,3 +181,10 @@ context.startActivity(explicitIntent)
 - Android 14에는 일부 제한된 비 SDK 인터페이스가 변경되었습니다.
 - 일부 비 SDK 인터페이스를 사용할 수 있지만 이러한 메소드와 필드를 사용하면 항상 앱이 중단될 위험이 높아지므로 대체할 수 있는 SDK 인터페이스로 마이그레이션해야 합니다.
 - 앱의 기능에 비 SDK 인터페이스 사용 외에 다른 방법을 찾을 수 없는 경우 새 공개 API를 요청해야 합니다.
+
+## 새로운 기능
+
+### 기능 및 API 개요
+
+Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입
+새롭게 추가, 수정, 삭제된 API는 API 차이 보고서([API difference report](https://developer.android.com/sdk/api_diff/u-dp1/changes))에서 상세 목록 확인 가능
