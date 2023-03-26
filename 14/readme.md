@@ -186,5 +186,18 @@ context.startActivity(explicitIntent)
 
 ### 기능 및 API 개요
 
-Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입
-새롭게 추가, 수정, 삭제된 API는 API 차이 보고서([API difference report](https://developer.android.com/sdk/api_diff/u-dp1/changes))에서 상세 목록 확인 가능
+Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입하였습니다.
+새롭게 추가, 수정, 삭제된 API는 API 차이 보고서([API difference report](https://developer.android.com/sdk/api_diff/u-dp1/changes))에서 상세
+목록 확인이 가능합니다.
+
+### 국제화
+
+#### 앱별 언어 기본 설정
+
+Android 13에서 시작된 앱별 언어 기능이 확장되었습니다.
+
+- 앱의 localConfig를 자동으로 생성합니다.
+    - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는 앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수 있습니다.
+    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocalConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로 파일을 생성하거나 업데이트할 필요가
+      없어집니다.
+    - AGP는 앱 모듈의 res 폴더에 있는 리소스와 라이브러리 모듈의 디펜던시를 사용하여 LocaleConfig 파일에 포함될 로케일을 결정합니다.
