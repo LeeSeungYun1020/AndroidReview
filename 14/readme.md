@@ -205,4 +205,6 @@ Android 13에서 시작된 앱별 언어 기능이 확장되었습니다.
     - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여 기기 시스템 설정에서 표시되는 앱의 지원되는 언어 목록을 동적으로 변경할 수
       있습니다.
     - 지역별로 지원되는 언어 목록을 변경하거나, A/B 테스트 수행, 현지화를 위해 서버 측 푸시를 사용하여 업데이트된 로케일 목록을 제공받는 경우 유용하게 사용할 수 있을 것입니다.
+- 입력기(Input Method Editor)가 앱 언어를 파악할 수 있습니다.
+    - IME는 getApplicationLocales 메소드로 현재 앱의 언어를 확인하여 입력 언어를 일치시킬 수 있습니다.
 
