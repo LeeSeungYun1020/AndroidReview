@@ -187,8 +187,9 @@ context.startActivity(explicitIntent)
 ### 기능 및 API 개요
 
 Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입하였습니다.
-새롭게 추가, 수정, 삭제된 API는 API 차이 보고서([API difference report](https://developer.android.com/sdk/api_diff/u-dp1/changes))에서 상세
-목록 확인이 가능합니다.
+새롭게 추가, 수정, 삭제된 API는 API 차이 보고서
+([API difference report](https://developer.android.com/sdk/api_diff/u-dp1/changes))
+에서 상세 목록 확인이 가능합니다.
 
 ### 국제화
 
@@ -197,14 +198,39 @@ Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입
 Android 13에서 시작된 앱별 언어 기능이 확장되었습니다.
 
 - 앱의 localConfig를 자동으로 생성합니다.
-    - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는 앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수 있습니다.
-    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocalConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로 파일을 생성하거나 업데이트할 필요가
+    - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는 앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수
+      있습니다.
+    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocalConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로
+      파일을 생성하거나 업데이트할 필요가
       없어집니다.
     - AGP는 앱 모듈의 res 폴더에 있는 리소스와 라이브러리 모듈의 디펜던시를 사용하여 LocaleConfig 파일에 포함될 로케일을 결정합니다.
 - 앱의 localConfig를 동적으로 변경할 수 있습니다.
-    - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여 기기 시스템 설정에서 표시되는 앱의 지원되는 언어 목록을 동적으로 변경할 수
+    - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여 기기 시스템 설정에서 표시되는 앱의
+      지원되는 언어 목록을 동적으로 변경할 수
       있습니다.
-    - 지역별로 지원되는 언어 목록을 변경하거나, A/B 테스트 수행, 현지화를 위해 서버 측 푸시를 사용하여 업데이트된 로케일 목록을 제공받는 경우 유용하게 사용할 수 있을 것입니다.
+    - 지역별로 지원되는 언어 목록을 변경하거나, A/B 테스트 수행, 현지화를 위해 서버 측 푸시를 사용하여 업데이트된 로케일 목록을 제공받는 경우 유용하게 사용할 수 있을
+      것입니다.
 - 입력기(Input Method Editor)가 앱 언어를 파악할 수 있습니다.
     - IME는 getApplicationLocales 메소드로 현재 앱의 언어를 확인하여 입력 언어를 일치시킬 수 있습니다.
 
+#### 굴절 문법에 대한 API
+
+굴절 문법 API는 전달되는 사람에 따라 문법적으로 성별이 바뀌는 언어를 쉽게 지원할 수 있도록 합니다.
+이를 통해 개인화되고 자연스러운 사용자 경험을 제공할 수 있습니다.
+
+- 문법적 성별에 대한 굴절 예시
+    - 일부 언어에서는 문법적으로 성별을 구분하며 영어처럼 쉽게 해결할 수 없는 경우가 있습니다.
+    - 예를 들어 프랑스어에서는 같은 표현에 대해 남성, 여성, 중성적 표현을 선택할 수 있습니다.
+    - 남성, 여성 표현은 사용자를 직접적으로 표현합니다. 그러나 이러한 프랑스어의 문법적 특징을 수용할 수 있는 매커니즘이 없는 경우 중성적 표현만 제공할 수 있습니다.
+      중성적 표현은 메시지의 어조를 변경하고 사용자 인터페이스에 표시하려는 것과 동떨어진 것일 수 있습니다.
+    - 이러한 경우에 굴절 문법 API는 사용자의 문법적 성별에 대해 알맞은 문자열을 표시할 수 있도록 합니다.
+    - 앱에서 사용자에 맞춘 번역을 제공하기 위해서는 각 문법적 성별에 따라 변형된 번역을 추가하고
+      GrammaticalInflectionManager API를 사용하여 사용자에 표시되는 번역을 조절해야 합니다.
+    - Android Studio Giraffe Canary 7 이상부터 성별에 따른 리소스 구분을 인식하고 지원합니다.
+    - 이전에 이와 유사한 지원을 추가하려면 ICU의 SelectFormat API를 사용해야 했으며 문자열 별로 적용되어야 했습니다.
+- 문법적 성별이 있는 언어에 대한 번역 추가
+    - 성별이 있는 언어에 대한 현지화된 텍스트 제공을 위해서는 로케일 이름 바로 뒤에 성별 구분자를 추가하여 리소스 파일을 만들면 됩니다.
+    - 예를 들어 프랑스어에서 남성, 여성, 중성에 대한 번역을 제공하려면 res/values-fr-feminine/strings.xml,
+      res/values-fr-masculine/strings.xml, res/values-fr-neuter/strings.xml를 생성하면 됩니다.
+    - 기존 언어 설정에서와 같이 문법 성별 버전을 사용할 수 없는 경우 기본 리소스 파일에 있는 텍스트가 표시됩니다.
+      따라서 의도한 경우 중성 표현은 res/values-fr/strings.xml 파일에 작성되어도 됩니다.
