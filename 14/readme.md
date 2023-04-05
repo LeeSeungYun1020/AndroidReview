@@ -182,6 +182,25 @@ context.startActivity(explicitIntent)
 - 일부 비 SDK 인터페이스를 사용할 수 있지만 이러한 메소드와 필드를 사용하면 항상 앱이 중단될 위험이 높아지므로 대체할 수 있는 SDK 인터페이스로 마이그레이션해야 합니다.
 - 앱의 기능에 비 SDK 인터페이스 사용 외에 다른 방법을 찾을 수 없는 경우 새 공개 API를 요청해야 합니다.
 
+### Schedule exact alarm 권한이 기본적으로 거부
+
+#### SCHEDULE_EXACT_ALARM 개요
+
+Exact alarm은 특정한 시간에 일어날 필요가 있는 사용자가 의도한 알림 또는 액션을 의미합니다.
+
+SCHEDULE_EXACT_ALARM 권한은 Android 12에서 도입되었으며 사용자의 동의가 필요없는 미리 허가된 권한이었습니다.
+그러나 이제부터 Android 13 이상을 타겟팅하는 대부분의 새롭게 설치되는 앱에서 기본적으로 권한이 거부됩니다.
+백업 및 복구를 통해 Android 14를 실행하는 디바이스에 앱 데이터를 전송하는 경우에도 권한이 거부됩니다.
+이 권한을 이미 취득한 앱의 경우에는 디바이스가 Android 14로 업데이트되어도 권한이 유지됩니다.
+
+SCHEDULE_EXACT_ALARM 권한은 setExact(), setExactAndAllowWhileIdle(), setAlarmClock() 같은 API를 사용하여
+정확한 알람을 설정하려는 경우 필요하며, 권한이 없는 경우에는 SecurityException이 발생합니다. 
+단 알람 매니저의 OnAlarmListener를 사용하여 정확한 알람을 설정하는 경우에는 권한이 필요하지 않습니다.
+
+- canScheduleExactAlarms() 함수로 정확한 알람을 설정하기 전 권한을 확인하세요
+- 알람 매니저의 ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED 포그라운드 브로드캐스트를 수신하여
+  사용자가 권한 허가를 변경하는 경우에 대응할 수 있습니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
