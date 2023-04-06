@@ -201,6 +201,14 @@ SCHEDULE_EXACT_ALARM 권한은 setExact(), setExactAndAllowWhileIdle(), setAlarm
 - 알람 매니저의 ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED 포그라운드 브로드캐스트를 수신하여
   사용자가 권한 허가를 변경하는 경우에 대응할 수 있습니다.
 
+#### 영향을 받는 앱
+
+Android 14 이상을 실행하는 장치에서 다음 특성에 해당하는 새롭게 설치되는 앱이 영향을 받습니다.
+- Android 13 이상을 타겟(API level 33)
+- manifest에 SCHEDULE_EXACT_ALARM 권한 선언
+- 여타 면제 또는 사전 허가 시나리오에 해당되지 않는 경우
+- 캘린더 또는 알람 시계 앱이 아닌 경우
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
