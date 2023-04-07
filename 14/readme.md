@@ -194,7 +194,7 @@ SCHEDULE_EXACT_ALARM 권한은 Android 12에서 도입되었으며 사용자의 
 이 권한을 이미 취득한 앱의 경우에는 디바이스가 Android 14로 업데이트되어도 권한이 유지됩니다.
 
 SCHEDULE_EXACT_ALARM 권한은 setExact(), setExactAndAllowWhileIdle(), setAlarmClock() 같은 API를 사용하여
-정확한 알람을 설정하려는 경우 필요하며, 권한이 없는 경우에는 SecurityException이 발생합니다. 
+정확한 알람을 설정하려는 경우 필요하며, 권한이 없는 경우에는 SecurityException이 발생합니다.
 단 알람 매니저의 OnAlarmListener를 사용하여 정확한 알람을 설정하는 경우에는 권한이 필요하지 않습니다.
 
 - canScheduleExactAlarms() 함수로 정확한 알람을 설정하기 전 권한을 확인하세요
@@ -204,10 +204,21 @@ SCHEDULE_EXACT_ALARM 권한은 setExact(), setExactAndAllowWhileIdle(), setAlarm
 #### 영향을 받는 앱
 
 Android 14 이상을 실행하는 장치에서 다음 특성에 해당하는 새롭게 설치되는 앱이 영향을 받습니다.
+
 - Android 13 이상을 타겟(API level 33)
 - manifest에 SCHEDULE_EXACT_ALARM 권한 선언
 - 여타 면제 또는 사전 허가 시나리오에 해당되지 않는 경우
 - 캘린더 또는 알람 시계 앱이 아닌 경우
+
+#### 캘린더와 알람 시계 앱은 USE_EXACT_ALARM 권한을 선언해야 합니다.
+
+캘린더 또는 알람 시계 앱은 일정 알림, 기상 알람, 알림을 앱이 실행 중이지 않을 때 표시할 필요가 있습니다.
+이러한 경우 USE_EXACT_ALARM 일반 권한을 사용할 수 있습니다.
+설치 시 USE_EXACT_ALARM 권한이 허가되며 권한을 계속해서 유지합니다.
+USE_EXACT_ALARM 권한을 사용하는 앱은 SCHEDULE_EXACT_ALARM 권한을 선언한 앱과 같이 정확한 알람을 설정할 수 있습니다.
+
+2023년 7월 31일을 기하여 앱의 핵심 기능에 정확한 알람이 필요한 경우에만 권한을 선언해야 하며
+기준을 충족하지 않는 경우 Google Play에 게시가 차단됩니다.
 
 ## 새로운 기능
 
