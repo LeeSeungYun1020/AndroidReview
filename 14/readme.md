@@ -267,6 +267,36 @@ setExact(), setExactAndAllowWhileIdel(), setAlarmClock() 메서드로 정확한 
 안드로이드에서는 정확한 알람을 중요하고 시간이 중요한 중단(interruptions)으로 취급합니다.
 따라서 정확한 알람은 포그라운드 서비스 시작 제한에 영향을 받지 않습니다.
 
+#### 적합한 알람 권한 선언
+
+앱이 Android 12 이상을 타겟하고 있다면 알람 및 리마인더를 위한 특별한 앱 엑세스 권한을 얻어야 합니다. SCHEDULE_EXACT_ALARM 권한을 매니페스트 파일에
+선언하면 됩니다.
+
+```manifest
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+```
+
+앱이 Android 13 이상을 타겟한다면 USE_EXACT_ALARM 권한을 얻을 수도 있습니다.
+
+```manifest
+<uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+```
+
+두 권한 모두 같은 기능을 하지만 권한 허가 과정과 사용 예에 있어 차이점이 존재합니다.
+
+##### USE_EXACT_ALARM
+
+- 자동으로 허가됨
+- 사용자에 의해 거부될 수 없음
+- 구글 플레이 정책에 따라야 함
+- 주요 기능이 알람 및 리마인더 기능인 경우에만 사용 가능
+
+##### SCHEDULE_EXACT_ALARM
+
+- 사용자가 허가
+- 다양한 사용 방식
+- 관련 기능 사용 전 권한이 허가되었는지 확인해야 함
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
