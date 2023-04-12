@@ -309,6 +309,55 @@ setExact(), setExactAndAllowWhileIdel(), setAlarmClock() 메서드로 정확한 
 - 사용자가 권한을 허가해야 앱이 정확한 알람을 설정할 수 있게 됩니다.
   권한을 거부한 경우 정확한 알람을 포함하는 기능을 사용하지 않고 앱이 작동하도록 구현하여 적절하게 저하된 사용자 경험을 제공해야 합니다.
 
+```kotlin
+val alarmManager: AlarmManager = context.getSystemService<AlarmManager>()!!
+when {
+    // 권한이 허가된 상태라면 정확한 알람 설정
+    alarmManager.canScheduleExactAlarms() -> {
+        alarmManager.setExact(...)
+    }
+    else -> {
+        // 환경 설정에서 정확한 알람 페이지로 이동시켜 사용자에게 권한 요청
+        startActivity(Intent(ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+    }
+}
+```
+
+onResume에서는 권한을 확인하고 사용자의 결정에 따라 처리할 수 있습니다.
+
+```kotlin
+override fun onResume() {
+    if (alarmManager.canScheduleExactAlarms()) {
+        // 정확한 알람 설정
+        alarmManager.setExact(...)
+    } else {
+        // 아직 권한이 허가되지 않았음. 사용자에게 알림 보여주고 대체 로직 수행
+        alarmManager.setWindow(...)
+    }
+}
+```
+
+##### 권한 거부에 따른 사용자 경험 저하
+
+사용자가 권한을 거부할 수도 있습니다.
+이런 경우에도 사용자 경험을 적정하게 저하시켜 사용자에게 가능한한 최고의 사용자 경험을 제공하는 것이 좋습니다.
+
+#### 면제
+
+다음 앱은 항상 setExact(), setExactAndAllowWhileIdle() 메소드를 사용할 수 있습니다.
+
+- 플랫폼 인증서로 서명된 앱
+- 이전에 권한을 허가받은 앱
+- 전원 허용 목록(배터리 최적화 무시)에 있는 앱
+
+#### 사전 허가
+
+SYSTEM_WELLBEING 역할을 소유한 앱은 SCHEDULE_EXACT_ALARM 권한을 사전에 허가받습니다.
+
+#### 테스트
+
+이번 변경 사항을 테스트하려면 "설정 > 앱 > 특별 앱 액세스 > 알람과 리마인더"에서 권한을 조정하여 앱의 변화를 확인할 수 있습니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
