@@ -379,6 +379,25 @@ Android 14 디바이스부터 사용자는 앱이 Android 13에서 도입된 비
 앱에서 Android 11에서 도입된 사진 선택 도구를 사용하고 있는 경우에는 이 변경사항을 지원하기 위해 별다른 추가작업이 필요하지 않습니다.
 사진 선택 도구를 사용하고 있지 않다면 이 변경사항에 대응하기 보다는 사진 선택 도구를 도입하는 것을 권장합니다.
 
+#### 새로운 권한 선언에 따른 영향
+
+READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하고 사용자가 "사진과 영상 선택"을 권한 다이얼로그에서 고른 경우 다음과 같은 일이 벌어집니다.
+
+- READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한은 거부됩니다.
+- READ_MEDIA_VISUAL_USER_SELECTED 권한이 허가됩니다.
+  사용자 사진과 영상에 대해 부분적, 임시적 권한이 허가됩니다.
+- 앱에서 다른 사진과 영상에 접근이 필요하게 되면 READ_MEDIA_IMAGES 또는 READ_MEDIA_VIDEO 권한을 다시 요청해야 합니다.
+
+READ_MEDIA_IMAGES 또는 READ_MEDIA_VIDEO 권한을 다시 요청할 때는 별도의 UI 요소를 추가하여
+사용자가 요소를 눌렀을 때 다이얼로그가 표시되도록 하여 갑자기 시스템 다이얼로그 나타나 당황하는 상황이 발생하지 않도록 해야합니다.
+
+READ_MEDIA_IMAGES 또는 READ_MEDIA_VIDEO 권한이 사용자의 사진과 영상 라이브러리에 접근하는데 필요한 유일한 권한입니다.
+READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하면 권한 컨트롤러가 앱이 더 많은 사진과 영상을 선택하기 위해 수동으로 권한을 재요청하는 기능을 지원합니다.
+
+사용자에 여러 개의 시스템 런타임 다이얼로그 상자가 표시되지 않도록 하려면,
+READ_MEDIA_VISUAL_USER_SELECTED, ACCESS_MEDIA_LOCATION, READ_MEDIA_IMAGES. READ_MEDIA_VIDEO 권한을
+한 번에 요청하세요.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
