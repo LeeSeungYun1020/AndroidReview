@@ -398,6 +398,19 @@ READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하면 권한 컨트롤러가 �
 READ_MEDIA_VISUAL_USER_SELECTED, ACCESS_MEDIA_LOCATION, READ_MEDIA_IMAGES. READ_MEDIA_VIDEO 권한을
 한 번에 요청하세요.
 
+#### 새로운 권한을 선언하지 않았을 때의 영향
+
+READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하지 않은 경우 다음과 같은 일이 발생합니다.
+
+- READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한이 앱 세션에 임시 권한으로 부여됩니다.
+  사용자가 선택한 사진과 영상에 임시적으로 접근할 수 있습니다.
+  앱이 백그라운드로 전환되거나 종료되면 시스템이 권한을 거부합니다.
+- 나중에 추가적으로 사진과 영상에 접근하려면 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 다시 요청해야 합니다.
+  권한 요청은 권한이 처음 요청되었을 때와 같은 흐름으로 진행되며 사용자에게 사진과 영상을 선택하는 화면이 표시됩니다.
+
+앱은 URI 접근이 계속 가능하다고 가정해서는 안됩니다.
+권한이 변경되면 더이상 URI에 접근하지 못할 수 있으므로 기존에 보여지는 사진을 새로고침해야 합니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
