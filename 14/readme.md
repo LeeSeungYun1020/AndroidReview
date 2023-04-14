@@ -411,6 +411,23 @@ READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하지 않은 경우 다음과 �
 앱은 URI 접근이 계속 가능하다고 가정해서는 안됩니다.
 권한이 변경되면 더이상 URI에 접근하지 못할 수 있으므로 기존에 보여지는 사진을 새로고침해야 합니다.
 
+#### 업그레이드 시 사진과 영상 접근 권한은 유지됩니다.
+
+Android 14 미만에서 업그레이드 되는 장치에서 시스템은 사용자의 사진과 영상 전체 접근 권한을 계속 유지합니다. 정확한 동작은 업그레이드 전 허가된 권한에 따라 달라질 수
+있습니다.
+
+##### Android 13 권한
+
+READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한이 허가된 경우,
+업그레이드된 앱은 사용자 사진 및 영상에 대한 전체 접근 권한을 유지합니다.
+시스템이 자동으로 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한 허가를 유지합니다.
+
+##### Android 12 이하 권한
+
+READ_EXTERNAL_STORAGE 또는 WRITE_EXTERNAL_STORAGE 권한이 허가된 경우,
+업그레이드된 앱은 사용자 사진 및 영상에 대한 전체 접근 권한을 유지합니다.
+시스템이 자동으로 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 허가합니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
