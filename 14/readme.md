@@ -458,6 +458,37 @@ Android 14에서 도입된 이번 변경사항으로 미디어 라이브러리�
 사용자가 시스템 권한 다이얼로그에서 "사진과 영상 선택"을 고를 경우 선택된 사진과 영상에 대한 접근은 언제든지 차단될 수 있습니다.
 앱은 URI에 접근할 수 없는 상황을 항상 염두에 두고 있어야 합니다.
 
+### 포그라운드 서비스의 타입 명시 필요
+
+#### 포그라운드 서비스 타입 개요
+
+개발자들이 보다 계획적으로 사용자와 마주하는 포그라운드 서비스를 정의할 수 있도록
+Android 10에서 <service> 요소 내에 android:foregroundServiceType 속성이 추가된 바 있습니다.
+
+Android 14를 타겟으로 하는 앱은 적합한 포그라운드 서비스 타입을 명시해야만 합니다.
+이전 버전의 안드로이드에서처럼 여러 타입이 결합 가능합니다. 포그라운드 서비스 타입은 다음과 같습니다.
+
+- camera
+- connectedDevice
+- dataSync
+- health
+- location
+- mediaPlayback
+- microphone
+- phoneCall
+- remoteMessaging
+- shortService
+- specialUse
+- systemExempted
+
+서비스 타입 중 앱에 적합한 타입이 없는 경우,
+WorkManager 또는 사용자 시작 데이터 전송 작업(user-initiated data transfer jobs)으로 로직을 옮기는 것을 권장합니다.
+
+Android 14에서 health, remoteMessaging, shortService, specialUse, systemExempted 타입이 새롭게 추가되었습니다.
+
+Android 14를 타겟팅하는 앱이 manifest에 서비스의 타입을 정의하지 않으면
+시스템이 startForeground() 호출 시 MissingForegroundServiceTypeException을 발생시킵니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
