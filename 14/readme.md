@@ -489,6 +489,30 @@ Android 14에서 health, remoteMessaging, shortService, specialUse, systemExempt
 Android 14를 타겟팅하는 앱이 manifest에 서비스의 타입을 정의하지 않으면
 시스템이 startForeground() 호출 시 MissingForegroundServiceTypeException을 발생시킵니다.
 
+#### 포그라운드 서비스 타입 사용을 위해 새로운 권한 선언
+
+Android 14에서 포그라운드 서비스를 사용하려면 포그라운드 서비스 타입에 맞는 특정 권한을 반드시 선언해야 합니다.
+
+모든 권한은 일반 권한으로 정의되며 기본적으로 허가되어 사용자가 권한을 거부할 수 없습니다.
+
+##### 런타임에 포그라운드 서비스 타입 포함하기
+
+포그라운드 서비스를 시작할 때는 포그라운드 서비스 타입을 비트 형태의 정수로 전달 받는 오버로드된 버전의 startForeground()를 사용하세요.
+메서드에 하나 이상의 타입을 전달할 수 있습니다.
+
+일반적으로 앱에서 사용하는 특정 사용 사례에 맞는 타입만 선언해야 합니다.
+그래야 각 포그라운드 서비스 타입에 대해 시스템이 요구하는 부분을 쉽게 충족시킬 수 있습니다.
+포그라운드 서비스가 여러 타입으로 시작되는 경우, 해당 포그라운드 서비스는 선언한 모든 타입에 대해 플랫폼에서 요구하는 사항을 준수해야 합니다.
+
+그러나 camera, location, microphone 타입을 사용하는 포그라운드 서비스를 시작할 경우,
+startForeground를 호출할 때마다 해당 타입을 포함하여 실행해야 합니다.
+
+``` kotlin
+    Service.startForeground(0, notification, FOREGROUND_SERVICE_TYPE_LOCATION)
+```
+
+startForeground에 타입을 전달하지 않으면 manifest 파일에 정의된 값을 기본값으로 사용합니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
