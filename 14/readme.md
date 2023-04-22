@@ -135,6 +135,29 @@
 - 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을 WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히
   추천합니다.
 
+##### OpenJDK 17 업데이트
+
+Android 14는 최신 OpenJDK LTS 릴리즈의 기능에 맞게 Android 코어 라이브러리를 수정하는 작업을 계속합니다.
+이 개선에는 앱과 플랫폼 개발자를 위한 라이브러리 업데이트와 Java 17 언어 지원을 포함합니다.
+
+몇 가지 변경사항은 앱 호환성에 영향을 미칠 수 있습니다.
+
+- 정규식의 변화
+    - OpenJDK의 의미(체계)를 더 밀접하게 따르도록 잘못된 그룹 참조(Invalid group reference)가 더 이상 허용되지 않습니다.
+    - java.util.regex.Matcher 클래스에서 Illegal Argument Exception이 발생할 수 있으므로
+      정규식을 사용하는 코드를 점검하시기 바랍니다.
+    - 테스트 중 호환성 프레임워크 도구의 DISALLOW_INVALID_GROUP_REFERENCE 플래그를 사용하여 켜거나 끌 수 있습니다.
+- UUID 처리
+    - java.util.UUID.fromString() 메소드가 입력 인자 유효성을 더 엄격하게 검사합니다.
+    - 역직렬화 시, IllegalArgumentException이 발생할 수 있습니다.
+    - 호환성 프레임워크 도구의 ENABLE_STRICT_VALIDATION 플래그로 켜거나 끌 수 있습니다.
+- 프로가드 이슈
+    - java.lang.ClassValue 클래스를 추가하는 경우 프로가드를 통한 축소, 난독화, 최적화 과정에서 문제가 발생할 수 있습니다.
+    - 이는 일부 코틀린 라이브러리에서 Class.forName("java.lang.ClassValue")가
+      클래스를 반환하는지 여부에 따라 런타임 동작을 변경하는 문제 때문에 발생합니다.
+    - java.lang.ClassValue 클래스를 사용할 수 없는 이전 버전의 런타임을 대상으로 앱을 개발한 경우
+      최적화 과정에서 java.lang.ClassValue에서 파생된 클래스에서 computeValue 메서드가 제거될 수 있습니다.
+
 #### 보안
 
 ##### 암시적 인텐트와 펜딩 인텐트의 제한 사항
@@ -167,6 +190,13 @@ context.startActivity(explicitIntent)
 - 코드 삽입, 변조로 인해 앱이 손상될 수 있는 위험이 크게 증가되므로 가능하다면 앱에서 동적으로 코드를 로드하지 않아야 합니다.
 - 그럼에도 코드 동적 로드가 필요한 경우, 파일을 열자마자 읽기 전용으로 설정하고 내용을 작성해야 합니다.
 - 동적으로 로드된 기존 파일에서 예외가 발생하지 않도록 하려면 파일을 삭제하고 다시 로드하는 것을 권장합니다.
+
+##### 압축 파일 경로 순회 취약점
+
+Android 14를 타겟팅하는 앱에 대해 Android가 압축 파일 경로 순회 취약점이 발생하지 않도록 차단합니다.
+ZipFile(String)과 ZipInputStream.getNextEntry()는 압축 파일 이름에 ".."이 포함되거나 "/"로 시작되면 ZipException을 일으킵니다.
+
+앱은 dalvik.system.ZipPathValidator.clearCallback()을 호출하여 유효성 검사를 해제할 수 있습니다.
 
 ##### 백그라운드에서 액티비티를 시작할 때, 추가 제한 사항 적용
 
