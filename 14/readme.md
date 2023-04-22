@@ -573,6 +573,67 @@ Android 14에서는 앱의 포그라운드 서비스 사용에 엄격한 규칙(
 시스템은 자동으로 이 권한을 허가합니다.
 앱 메니페스트에 권한을 선언하지 않은 경우 시스템이 SecurityException을 발생시킵니다.
 
+#### 사용자 시작 데이터 전송 작업 실행 과정
+
+1. 매니페스트 파일에 RUN_USER_INITIATED_JOBS 권한을 선언합니다.
+
+```manifest
+<uses-permission android:name="android.permission.RUN_USER_INITIATED_JOBS" />
+```
+
+2. 새롭게 추가된 setUserInitiated()와 setDataTransfer() 메소드를 호출하여 JobInfo 객체를 생성합니다.
+   작업을 생성할 때에는 setEstimatedNetworkBytes() 메소드를 호출하여 페이로드 크기 예상치를 제공하는 것이 좋습니다.
+
+```kotlin
+val networkRequestBuilder = NetworkRequest.Builder()
+    .addCapability(NET_CAPABILITY_INTERNET)
+    .addCapability(NET_CAPABILITY_VALIDATED)
+
+val jobInfo = JobInfo.Builder()
+    // ...
+    .setUserInitiated(true)
+    .setDataTransfer(true)
+    .setRequiredNetwork(networkRequestBuilder.build())
+    .setEstimatedNetworkBytes(1024 * 1024 * 1024)
+    // ...
+    .build()
+```
+
+3. 앱이 표시되는 중이거나 허용되는 조건에 있을 때, 작업을 예약합니다.
+
+```kotlin
+val jobScheduler: JobScheduler =
+    context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+jobScheduler.schedule(jobInfo)
+```
+
+4. 작업이 실행 중일 때 JobService 객체에서 setNotification() 호출을 잊어서는 안됩니다.
+   이 값은 작업 관리자와 상태 표시줄 알림 영역을 통해 사용자에게 작업이 실행 중임을 알리는데 사용됩니다.
+   짧은 시간 내에 setNotification()을 호출하지 않으면 앱에 ANR이 발생합니다.
+
+```kotlin
+val notification = Notification.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+    .setContentTitle("My user-initiated data transfer job")
+    .setSmallIcon(android.R.mipmap.myicon)
+    .setContentText("Job is running")
+    .build()
+
+class CustomJobService : JobService() {
+    override fun onStartJob(params: JobParameters?): Boolean {
+        setNotification(
+            params, notification.id, notification,
+            JobService.JOB_END_NOTIFICATION_POLICY_DETACH
+        )
+        // Do the job execution.
+    }
+}
+```
+
+5. 주기적으로 알림을 업데이트하여 사용자가 작업 진행 상태와 진행율을 알 수 있도록 해야 합니다.
+   작업을 실행하는 시점에 전송할 크기를 알 수 없는 경우에는
+   새로운 API에서 제공하는 updateEstimatedNetworkBytes()를 사용하여 전송 크기를 알 수 있는 시점에 업데이트할 수 있습니다.
+6. 실행이 완료되면 jobFinished()를 호출하여 작업이 끝났거나 다시 작업을 수행해야 함을 시스템에 알리면 됩니다.
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
