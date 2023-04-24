@@ -711,6 +711,40 @@ onStopJob()이 호출되지 않더라도 데이터 전송 상태를 유지하여
 
 작업이 허용되는 조건에 해당하지 않는 경우에 예약되면 작업을 실패하고 RESULT_FAILURE 에러 코드를 반환합니다.
 
+#### 사용자 시작 데이터 전송 작업 제약 조건
+
+Android는 각 작업의 종류마다 제약 조건을 두어 작업이 최적의 지점에서 수행될 수 있도록 지원합니다.
+제약 조건은 Android 13에서 도입되었으며 Android 14에서는 사용자 시작 데이터 전송 작업에 적용할 수 있습니다.
+
+사용자 시작 데이터 전송 작업에 허용되는 제약 조건은 다음과 같습니다.
+
+- setBackoffCriteria(JobInfo.BACKOFF_POLICY_EXPONENTIAL)
+- setClipData()
+- setEstimatedNetworkBytes()
+- setMinimumNetworkChunkBytes()
+- setPersisted()
+- setNamespace()
+- setRequiredNetwork()
+- setRequiredNetworkType()
+- setRequiresBatteryNotLow()
+- setRequiresCharging()
+- setRequiresStorageNotLow()
+
+#### 테스트
+
+- 작업 ID를 확인하려면 작업이 만들어질 때에 정의된 값을 가져오면 됩니다.
+- 작업을 즉시 실행하거나 중단된 작업을 다시 시도하도록 하려면 터미널에서 다음 명령을 입력하세요
+
+```shell
+adb shell cmd jobscheduler run -f <package_name> <job_id>
+```
+
+- 시스템이 작업을 강제로 중단시키는 상황을 시뮬레이션하려면 터미널에서 다음 명령을 입력하세요
+
+```shell
+adb shell cmd jobscheduler timeout <package_name> <job_id>
+```
+
 ## 새로운 기능
 
 ### 기능 및 API 개요
