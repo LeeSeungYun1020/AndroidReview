@@ -96,6 +96,13 @@
 
 #### 사용자 경험
 
+##### 사진과 영상에 대한 부분적인 액세스 권한 부여
+
+- Android 13에서 도입된 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 요청할 경우 사용자는 부분적인 액세스 권한을 허가할 수 있습니다.
+- 새로운 권한 선택 다이얼로그에서는 사진과 영상 선택, 항상 모두 허용, 거부 옵션이 표시됩니다.
+- 앱에서 photo picker를 사용하는 경우에는 변경사항에 대응할 필요가 없습니다.
+- 더 세밀하게 권한을 다루고 싶다면 READ_MEDIA_VISUAL_USER_SELECTED 권한을 사용하는 것을 고려하십시오.
+
 ##### 고정(제거할 수 없는) 알림에 대한 사용자 경험 변경
 
 - Notification.FLAG_ONGOING_EVENT를 Notification.Builder.setOngoing(true)로 지정한 경우 사용자는 해당 알림을 제거할 수
@@ -106,13 +113,6 @@
     - MediaStyle을 사용하여 만들어진 미디어 재생 알림
     - 보안과 개인 정보와 연관되어 정책을 제한하는 경우
     - DPC(Device Policy Controller)와 기업용 지원 패키지
-
-##### 사진과 영상에 대한 부분적인 액세스 권한 부여
-
-- Android 13에서 도입된 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 요청할 경우 사용자는 부분적인 액세스 권한을 허가할 수 있습니다.
-- 새로운 권한 선택 다이얼로그에서는 사진과 영상 선택, 항상 모두 허용, 거부 옵션이 표시됩니다.
-- 앱에서 photo picker를 사용하는 경우에는 변경사항에 대응할 필요가 없습니다.
-- 더 세밀하게 권한을 다루고 싶다면 READ_MEDIA_VISUAL_USER_SELECTED 권한을 사용하는 것을 고려하십시오.
 
 #### 접근성
 
