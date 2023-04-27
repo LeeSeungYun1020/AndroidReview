@@ -101,7 +101,19 @@
 - Android 13에서 도입된 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 요청할 경우 사용자는 부분적인 액세스 권한을 허가할 수 있습니다.
 - 새로운 권한 선택 다이얼로그에서는 사진과 영상 선택, 항상 모두 허용, 거부 옵션이 표시됩니다.
 - 앱에서 photo picker를 사용하는 경우에는 변경사항에 대응할 필요가 없습니다.
-- 더 세밀하게 권한을 다루고 싶다면 READ_MEDIA_VISUAL_USER_SELECTED 권한을 사용하는 것을 고려하십시오.
+- 더 세밀하게 권한을 다루고 싶다면 READ_MEDIA_VISUAL_USER_SELECTED 권한을 사용하는 것을 고려하세요.
+
+##### 안전한 전체 화면 인텐트 알림
+
+- Android 11(API level 30)에서는 어떤 앱이든 폰이 잠겨 있는 상태에서 Notification.Builder.setFullScreenIndent를 이용하여
+  전체화면 인덴트를 전송할 수 있었습니다.
+    - AndroidManifest에 USE_FULL_SCREEN_INDENT 권한을 선언하여 앱 설치 시 이를 자동 부여할 수 있습니다.
+- 전체 화면 인덴트 알림은 전화와 알람같이 사용자의 즉각적인 주의가 요구되는 매우 높은 우선 순위 알림을 위해 설계되었습니다.
+    - Android 14부터는 권한 사용 목적을 전화와 알람으로 제한합니다.
+    - Google Play Store는 위 사항을 준수하지 않고 USE_FULL_SCREEN_INTENT 권한을 적용한 앱을 거부합니다.
+    - Android 14로 업데이트 하기 이전에 설치된 앱은 권한이 허용된 상태로 유지되며 사용자가 권한을 허가 또는 거부할 수 있습니다.
+    - NotificationManager.canUseFullScreenIntent API를 이용하여 앱에 권한이 있는지 확인할 수 있습니다.
+    - 권한이 거부된 경우, ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT로 사용자가 권한을 허가할 수 있는 설정 페이지를 열 수 있습니다.
 
 ##### 고정(제거할 수 없는) 알림에 대한 사용자 경험 변경
 
