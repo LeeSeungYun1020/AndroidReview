@@ -967,3 +967,9 @@ OnBackPressedCallback 내에 handleOnBackProgressed, handleOnBackCancelled, hand
 대부분의 앱이 이전 버전과 호환되는 AndroidX API를 사용하겠지만
 Android 14 Developer Preview 1 이상에서만 지원하는
 플랫폼 API의 OnBackAnimationCallback 같은 비슷한 항목을 지원합니다.
+
+##### 커스텀 액티비티 전환 추가(Android 14 이상)
+
+Android 14 이상에서 맞춤 액티비티 전환이 뒤로 탐색 예측을 지원하도록 하려면
+overridePendingTransition 대신 overrideActivityTransition을 사용할 수 있습니다.
+사용자가 스와이프하면 전환 애니메이션이 재생됩니다.
