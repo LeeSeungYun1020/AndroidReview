@@ -973,3 +973,11 @@ Android 14 Developer Preview 1 이상에서만 지원하는
 Android 14 이상에서 맞춤 액티비티 전환이 뒤로 탐색 예측을 지원하도록 하려면
 overridePendingTransition 대신 overrideActivityTransition을 사용할 수 있습니다.
 사용자가 스와이프하면 전환 애니메이션이 재생됩니다.
+
+작동 과정을 설명하기 위해, 액티비티 B가 표시되고 있고 액티비티 A가 백 스택에 있는 상황을 생각해보세요.
+- 액티비티 B의 onCreate 메소드에서 열기 또는 닫기 전환을 호출합니다.
+- 사용자가 액티비티 B로 이동할 때 OVERRIDE_TRANSITION_OPEN이 사용되며,
+  액티비티 A로 다시 돌아올 때 OVERRIDE_TRANSITION_CLOSE가 사용됩니다.
+- OVERRIDE_TRANSITION_CLOSE가 사용될 때 enterAnim은 액티비티 A의 시작 애니메이션이며
+  exitAnim은 액티비티 B의 종료 애니메이션입니다.
+- exitAnim이 설정되지 않았거나 0으로 설정된 경우, 기본 '액티비티가 전환' 뒤로 탐색 예측 애니메이션이 표시됩니다.
