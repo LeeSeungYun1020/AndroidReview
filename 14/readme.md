@@ -960,8 +960,8 @@ Android 14에서는 커스텀 인앱 전환과 애니메이션을 적용할 수 
 뒤로 탐색 예측 API를 이용하여 맞춤형 인앱 전환과 애니메이션을 개발할 수 있습니다.
 
 AndroidX의 Activity 1.8.0-alpha01 이상부터 앱의 뒤로 탐색 예측 동작에 맞춤 전환을 추가할 수 있습니다.
-OnBackPressedCallback 내에 handleOnBackProgressed, handleOnBackCancelled, handleOnBackStarted 메소드를 도입하여
-사용자가 뒤로 스와이프하는 동안 애니매이션을 보여줄 수 있습니다.
+OnBackPressedCallback 내에 handleOnBackProgressed, handleOnBackCancelled, handleOnBackStarted
+메소드를 도입하여 사용자가 뒤로 스와이프하는 동안 애니매이션을 보여줄 수 있습니다.
 이 메소드로 시스템 기본 애니메이션 또는 머터리얼 컴포넌트 애니메이션을 맞춤 설정하면 됩니다.
 
 대부분의 앱이 이전 버전과 호환되는 AndroidX API를 사용하겠지만
@@ -975,6 +975,7 @@ overridePendingTransition 대신 overrideActivityTransition을 사용할 수 있
 사용자가 스와이프하면 전환 애니메이션이 재생됩니다.
 
 작동 과정을 설명하기 위해, 액티비티 B가 표시되고 있고 액티비티 A가 백 스택에 있는 상황을 생각해보세요.
+
 - 액티비티 B의 onCreate 메소드에서 열기 또는 닫기 전환을 호출합니다.
 - 사용자가 액티비티 B로 이동할 때 OVERRIDE_TRANSITION_OPEN이 사용되며,
   액티비티 A로 다시 돌아올 때 OVERRIDE_TRANSITION_CLOSE가 사용됩니다.
