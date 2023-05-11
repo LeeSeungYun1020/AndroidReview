@@ -81,8 +81,8 @@
 - 맬웨어는 오래된 API 레벨을 타겟하여 새로운 안드로이드 버젼에서 적용된 보안과 개인 정보 보호를 우회합니다.
 - 대표적으로 Android 6.0(API level 23)에서 도입된 런타임 퍼미션 모델을 회피하기 위해 targetSdkVersion을 22로 하는 멜웨어 앱이 있습니다.
 - 낮은 API 레벨을 타겟팅하는 앱을 설치하려고 시도하면 설치가 실패하며 Logcat에 INSTALL_FAILED_DEPRECATED_SDK_VERSION: App package
-  must target at least SDK version 23, but found 7가 표시됩니다.
-- Android 14로 업그레이드하는 장치에 기존에 설치된 앱은 그대로 유지되며, ADB 명령어 adb install --bypass-low-target-sdk-block
+  must target at least SDK version 23, but found 7 메시지가 표시됩니다.
+- Android 14로 업그레이드하는 장치에서 기존에 설치된 앱은 그대로 유지되며, ADB 명령어 adb install --bypass-low-target-sdk-block
   FILENAME.apk를 통해 이전 API 레벨의 앱을 설치하여 테스트할 수 있습니다.
 
 ##### 미디어 owner package name이 수정될 수 있습니다.
@@ -91,14 +91,15 @@
 - Android 14 부터는 다음 조건 중 하나 이상이 참인 경우 이 값이 수정됩니다.
     - 항상 다른 앱이 볼 수 있는 패키지 이름으로 된 미디어 파일을 저장한 앱
     - QUERY_ALL_PACKAGES 권한을 요청하며 미디어 저장소를 쿼리하는 앱
-        - Google Play는 위험하거나 민감한 권한을 사용하는 것을 제한하고 있습니다. 따라서 QUERY_ALL_PACKAGES 권한이 앱의 주요 목적에 사용되는
-          경우에만 사용가능하며 Play의 정책 요구사항을 만족하는 경우에만 Google Play에 게시될 수 있습니다.
+        - Google Play는 위험하거나 민감한 권한을 사용하는 것을 제한하고 있습니다.
+          따라서 QUERY_ALL_PACKAGES 권한이 앱의 주요 목적에 사용되는 경우에만 사용가능하며
+          Google Play의 정책 요구사항을 만족하는 경우에만 게시될 수 있습니다.
 
 #### 사용자 경험
 
 ##### 사진과 영상에 대한 부분적인 액세스 권한 부여
 
-- Android 13에서 도입된 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 요청할 경우 사용자는 부분적인 액세스 권한을 허가할 수 있습니다.
+- Android 13에서 도입된 READ_MEDIA_IMAGES, READ_MEDIA_VIDEO 권한을 요청할 경우 사용자는 부분적으로 미디어 액세스 권한을 허가할 수 있습니다.
 - 새로운 권한 선택 다이얼로그에서는 사진과 영상 선택, 항상 모두 허용, 거부 옵션이 표시됩니다.
 - 앱에서 photo picker를 사용하는 경우에는 변경사항에 대응할 필요가 없습니다.
 - 더 세밀하게 권한을 다루고 싶다면 READ_MEDIA_VISUAL_USER_SELECTED 권한을 사용하는 것을 고려하세요.
@@ -107,11 +108,11 @@
 
 - Android 11(API level 30)에서는 어떤 앱이든 폰이 잠겨 있는 상태에서 Notification.Builder.setFullScreenIndent를 이용하여
   전체화면 인덴트를 전송할 수 있었습니다.
-    - AndroidManifest에 USE_FULL_SCREEN_INDENT 권한을 선언하여 앱 설치 시 이를 자동 부여할 수 있습니다.
+    - AndroidManifest에 USE_FULL_SCREEN_INDENT 권한을 선언하면 앱 설치 시 이를 자동 부여할 수 있습니다.
 - 전체 화면 인덴트 알림은 전화와 알람같이 사용자의 즉각적인 주의가 요구되는 매우 높은 우선 순위 알림을 위해 설계되었습니다.
     - Android 14부터는 권한 사용 목적을 전화와 알람으로 제한합니다.
     - Google Play Store는 위 사항을 준수하지 않고 USE_FULL_SCREEN_INTENT 권한을 적용한 앱을 거부합니다.
-    - Android 14로 업데이트 하기 이전에 설치된 앱은 권한이 허용된 상태로 유지되며 사용자가 권한을 허가 또는 거부할 수 있습니다.
+    - Android 14로 업데이트 하기 이전에 설치된 앱은 권한이 허용된 상태로 유지되며 사용자가 권한을 거부할 수 있게 됩니다.
     - NotificationManager.canUseFullScreenIntent API를 이용하여 앱에 권한이 있는지 확인할 수 있습니다.
     - 권한이 거부된 경우, ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT로 사용자가 권한을 허가할 수 있는 설정 페이지를 열 수 있습니다.
 
@@ -128,8 +129,8 @@
 
 ##### 찾기 쉬워진 데이터 보안 정보
 
-- 사용자 개인 정보 보호 강화를 위해 Android 14에서는 개발자가 Play Console에 입력한 정보를 더 다양한 곳에 표시합니다.
-- 현재, Google Play의 각 앱 설명의 데이터 보안 항목에서 확인할 수 있습니다.
+- 사용자 개인 정보 보호 강화를 위해 Android 14에서는 개발자가 Play Console에 입력한 정보가 더 다양한 곳에 표시됩니다.
+- 현재 Google Play의 각 앱 설명의 데이터 보안 항목에서 확인할 수 있습니다.
 - 앱의 위치 데이터 공유 정책을 검토하여 Google Play 데이터 보안 항목을 업데이트하시기 바랍니다.
 
 #### 접근성
@@ -137,8 +138,8 @@
 ##### 비선형 폰트 200% 스케일링
 
 - 최대 200% 스케일링과 저시력 사용자를 위해 WCAG(Web Content Accessibility Guidelines)에 맞게 정렬하는 추가적인 접근성 옵션을 지원합니다.
-- 텍스트에 sp 단위를 사용하고 있다면 앱에 큰 영향은 없을 것으로 예상됩니다. 그러나 앱이 사용성에 영향을 주지 않는지 200% 스케일링을 적용한 상태에서 UI 테스트가
-  필요합니다.
+- 텍스트에 sp 단위를 사용하고 있다면 앱에 큰 영향은 없을 것으로 예상됩니다.
+  그러나 앱이 사용성에 영향을 주지 않는지 200% 스케일링을 적용한 상태에서 UI 테스트가 필요합니다.
 
 ### Android 14를 타겟팅하는 앱에 적용되는 사항
 
@@ -150,8 +151,8 @@
 - 시스템은 특정 유즈케이스를 충족하기 위해 특정 포그라운드 서비스 타입을 기대합니다.
     - Android 14에서는 health, remote messaging, short services, special use cases, system exemptions
       같은 포그라운드 서비스 타입을 도입하였습니다.
-- 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을 WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히
-  추천합니다.
+- 앱의 유즈 케이스가 이러한 타입과 연관되지 않은 경우 로직을
+  WorkManager 또는 user-initiated data transfer jobs로 이관하는 것을 강력히 추천합니다.
 
 ##### OpenJDK 17 업데이트
 
@@ -195,8 +196,8 @@ context.startActivity(explicitIntent)
 ##### 런타임에 등록된 브로드캐스트 리시버는 export 동작을 명시해야 합니다.
 
 - 컨텍스트에 등록되는 리시버는 디바이스의 모든 앱에 내보낼지 여부를 플래그로 지정해야 합니다.
-- Android 13 에서 추가된 기능(모든 앱이 동적으로 등록된 리시버로 보호되지 않은 리시버를 보낼 수 있는 문제 해결)을 강제하여 보안 취약성으로부터 앱을 보호할 수
-  있습니다.
+- Android 13 에서 추가된 기능(모든 앱이 동적으로 등록된 리시버로 보호되지 않은 리시버를 보낼 수 있는 문제 해결)을 강제하여
+  보안 취약성으로부터 앱을 보호할 수 있습니다.
 
 ##### 시스템 브로드캐스트만 수신하는 리시버에 예외 발생
 
@@ -234,7 +235,7 @@ ZipFile(String)과 ZipInputStream.getNextEntry()는 압축 파일 이름에 ".."
 
 #### SCHEDULE_EXACT_ALARM 개요
 
-Exact alarm은 특정한 시간에 일어날 필요가 있는 사용자가 의도한 알림 또는 액션을 의미합니다.
+Exact alarm은 특정한 시간에 발생할 필요가 있는 사용자가 의도한 알림 또는 액션을 의미합니다.
 
 SCHEDULE_EXACT_ALARM 권한은 Android 12에서 도입되었으며 사용자의 동의가 필요없는 미리 허가된 권한이었습니다.
 그러나 이제부터 Android 13 이상을 타겟팅하는 대부분의 새롭게 설치되는 앱에서 기본적으로 권한이 거부됩니다.
