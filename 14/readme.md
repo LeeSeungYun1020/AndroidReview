@@ -290,7 +290,7 @@ USE_EXACT_ALARM 권한을 사용하는 앱은 SCHEDULE_EXACT_ALARM 권한을 선
 #### 정확한 알람을 설정하는 방법
 
 setExact(), setExactAndAllowWhileIdel(), setAlarmClock() 메서드로 정확한 알람을 설정할 수 있으며
-후자일수록 더 시간이 중요한 작업을 수행하며 시스템 리소스를 더 많이 소모합니다.
+후자일수록 더 시간이 중요하게 고려되는 작업을 수행하며 시스템 리소스를 더 많이 소모합니다.
 
 앱에서 이러한 메서드로 정확한 알람을 설정할 경우 디바이스 리소스 특히 배터리 타임에 중대한 영향을 끼칠 수 있습니다.
 
@@ -301,7 +301,7 @@ setExact(), setExactAndAllowWhileIdel(), setAlarmClock() 메서드로 정확한 
     - 배터리 절약 옵션이 적용되고 있더라도 미래의 거의 정확한 시간에 알람이 호출됩니다.
 - setAlarmClock()
     - 미래의 정확한 시간에 알람을 호출합니다.
-    - 사용자에게 잘 보여야 하기 때문에 시스템이 제공할 시간을 조정하지 않습니다.
+    - 사용자에게 잘 전달되어야 하기 때문에 시스템이 제공할 시간을 조정하지 않습니다.
     - 시스템은 이러한 알람을 가장 중요한 것으로 인식하며, 알람을 제공할 필요가 있을 때 저전력 모드에서 벗어날 수 있습니다.
 
 #### 시스템 리소스 소비
@@ -356,7 +356,7 @@ setExact(), setExactAndAllowWhileIdel(), setAlarmClock() 메서드로 정확한 
 - 앱에 권한이 없는 경우 앱 패키지 이름과 함께 ACTION_REQUEST_SCHEDULE_EXACT_ALARM을 포함한 인텐트를 날려 사용자에게 권한을 허가받아야 합니다.
 - 사용자가 권한을 허가하면 발생되는 알람 매니저의 ACTION_SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED 브로드캐스트를 수신합니다.
 - 사용자가 권한을 허가해야 앱이 정확한 알람을 설정할 수 있게 됩니다.
-  권한을 거부한 경우 정확한 알람을 포함하는 기능을 사용하지 않고 앱이 작동하도록 구현하여 적절하게 저하된 사용자 경험을 제공해야 합니다.
+  권한을 거부한 경우 정확한 알람을 포함하는 기능을 사용하지 않아도 앱이 작동하도록 구현하여 적절하게 저하된 사용자 경험을 제공해야 합니다.
 
 ```kotlin
 val alarmManager: AlarmManager = context.getSystemService<AlarmManager>()!!
