@@ -462,7 +462,7 @@ READ_MEDIA_VISUAL_USER_SELECTED 권한을 선언하지 않은 경우 다음과 �
 
 #### 업그레이드 시 사진과 영상 접근 권한은 유지됩니다.
 
-Android 14 미만에서 업그레이드 되는 장치에서 시스템은 사용자의 사진과 영상 전체 접근 권한을 계속 유지합니다. 
+Android 14 미만에서 업그레이드 되는 장치에서 시스템은 사용자의 사진과 영상 전체 접근 권한을 계속 유지합니다.
 정확한 동작은 업그레이드 전 허가된 권한에 따라 달라질 수 있습니다.
 
 ##### Android 13 권한
@@ -545,7 +545,7 @@ Settings > Privacy or Settings > Security & Privacy 페이지로 항상 접근 �
 Android 10에서 <service> 요소 내에 android:foregroundServiceType 속성이 추가된 바 있습니다.
 
 Android 14를 타겟으로 하는 앱은 적합한 포그라운드 서비스 타입을 명시해야만 합니다.
-이전 버전의 안드로이드에서처럼 여러 타입이 결합 가능합니다. 포그라운드 서비스 타입은 다음과 같습니다.
+이전 버전의 안드로이드에서처럼 여러 타입을 결합 가능합니다. 포그라운드 서비스 타입은 다음과 같습니다.
 
 - camera
 - connectedDevice
@@ -563,10 +563,10 @@ Android 14를 타겟으로 하는 앱은 적합한 포그라운드 서비스 타
 서비스 타입 중 앱에 적합한 타입이 없는 경우,
 WorkManager 또는 사용자 시작 데이터 전송 작업(user-initiated data transfer jobs)으로 로직을 옮기는 것을 권장합니다.
 
-Android 14에서 health, remoteMessaging, shortService, specialUse, systemExempted 타입이 새롭게 추가되었습니다.
+Android 14에서는 health, remoteMessaging, shortService, specialUse, systemExempted 타입이 새롭게 추가되었습니다.
 
 Android 14를 타겟팅하는 앱이 manifest에 서비스의 타입을 정의하지 않으면
-시스템이 startForeground() 호출 시 MissingForegroundServiceTypeException을 발생시킵니다.
+시스템이 startForeground() 호출 시 MissingForegroundServiceTypeException이 발생합니다.
 
 #### 포그라운드 서비스 타입 사용을 위해 새로운 권한 선언
 
@@ -583,7 +583,7 @@ Android 14에서 포그라운드 서비스를 사용하려면 포그라운드 �
 그래야 각 포그라운드 서비스 타입에 대해 시스템이 요구하는 부분을 쉽게 충족시킬 수 있습니다.
 포그라운드 서비스가 여러 타입으로 시작되는 경우, 해당 포그라운드 서비스는 선언한 모든 타입에 대해 플랫폼에서 요구하는 사항을 준수해야 합니다.
 
-그러나 camera, location, microphone 타입을 사용하는 포그라운드 서비스를 시작할 경우,
+그러나 camera, location, microphone 타입을 사용하는 포그라운드 서비스를 시작하는 경우,
 startForeground를 호출할 때마다 해당 타입을 포함하여 실행해야 합니다.
 
 ``` kotlin
@@ -596,12 +596,12 @@ startForeground에 타입을 전달하지 않으면 manifest 파일에 정의된
 
 시스템은 포그라운드 서비스 타입이 적합하게 사용되는지 확인하고
 앱이 적절한 런타임 권한을 요청했는지 또는 필요한 API를 사용하는지 확인합니다.
-그 예로 시스템은 FOREGROUND_SERVICE_TYPE_LOCATION 타입을 사용하는 서비스가 있는 앱이
+그 예로 시스템은 FOREGROUND_SERVICE_TYPE_LOCATION 타입을 사용하는 서비스가 있는 앱은
 ACCESS_COARSE_LOCATION 또는 ACCESS_FINE_LOCATION 권한을 요청할 것으로 예상합니다.
 
 이는 앱이 사용자에게 권한을 요청하고 포그라운드 서비스를 시작할 때 일련의 동작 순서를 따라야 함을 의미합니다.
-권한은 반드시 startForeground 호출 전 요청되어 허가되어야 합니다.
-포그라운드 서비스가 시작된 후에 필요한 권한을 요청하는 앱은 포그라운드 서비스 시작 전에 권한을 요청하도록 변경해야 합니다.
+권한을 반드시 startForeground 호출 전 요청하여 허가받아야 합니다.
+따라서 포그라운드 서비스가 시작된 후에 필요한 권한을 요청하는 앱은 포그라운드 서비스 시작 전에 권한을 요청하도록 변경해야 합니다.
 
 앱이 포그라운드 서비스 시작 전 모든 런타임 요구사항을 만족하지 않는 경우
 startForeground를 호출 후 해당 서비스에서 SecurityException이 발생합니다.
@@ -620,9 +620,9 @@ startForeground를 호출 후 해당 서비스에서 SecurityException이 발생
 
 #### 포그라운드 서비스 타입 사용에 대한 구글 플레이 정책 강제 사항
 
-Android 14 출시에 발 맞추어,
-Google Play는 포그라운드 서비스 타입이 시스템이 기대하는 바와 일치하지 않을 때에
-앱이 포그라운드 서비스 타입을 선언하는 시기와 방법을 제한하는 정책에 대한 자세한 내용을 준비하고 있습니다.
+2023년 4월 Google Play 정책 업데이트에는 기기 및 네트워크 악용 정책에 대한 변경사항이 포함되었습니다. 
+새 정책은 특히 정의한 서비스 타입이 시스템 기대(예상)와 일치하지 않는 경우 
+앱에서 언제 어떻게 FOREGROUND_SERVICE 권한을 선언할 수 있는지 제한하는 내용이 담겼습니다.
 
 ### 포그라운드 서비스를 사용자 시작 데이터 전송 작업으로 변경
 
