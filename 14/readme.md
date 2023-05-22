@@ -25,7 +25,7 @@
     - 비선형 크기 조정으로 200%까지 확대
         - 텍스트가 너무 커지는 문제를 완화하기 위해 이미 충분히 큰 텍스트는 적은 비율로 확대
     - 앱별 언어 설정
-        - localConfig를 동적으로 업데이트하여 Android 설정의 앱별 언어 목록에 표시될 언어 집합을 맞춤 설정 가능
+        - localeConfig를 동적으로 업데이트하여 Android 설정의 앱별 언어 목록에 표시될 언어 집합을 맞춤 설정 가능
         - IME는 현재 앱의 UI 언어를 파악하여 표시될 키보드 언어를 업데이트 가능
     - 성별이 있는 언어 지원
         - 문자열 기준으로 적용되는 ICU의 SelectFormat 보다 쉽게 성별이 있는 언어를 지원
@@ -811,14 +811,14 @@ Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입
 
 Android 13에서 시작된 앱별 언어 기능이 확장되었습니다.
 
-- 앱의 localConfig를 자동으로 생성합니다.
+- 앱의 localeConfig를 자동으로 생성합니다.
     - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는 앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수
       있습니다.
-    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocalConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로
+    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocaleConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로
       파일을 생성하거나 업데이트할 필요가
       없어집니다.
     - AGP는 앱 모듈의 res 폴더에 있는 리소스와 라이브러리 모듈의 디펜던시를 사용하여 LocaleConfig 파일에 포함될 로케일을 결정합니다.
-- 앱의 localConfig를 동적으로 변경할 수 있습니다.
+- 앱의 localeConfig를 동적으로 변경할 수 있습니다.
     - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여 기기 시스템 설정에서 표시되는 앱의
       지원되는 언어 목록을 동적으로 변경할 수
       있습니다.
