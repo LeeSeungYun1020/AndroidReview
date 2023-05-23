@@ -812,18 +812,16 @@ Android 14에서는 개발자를 위한 멋진 새로운 기능과 API를 도입
 Android 13에서 시작된 앱별 언어 기능이 확장되었습니다.
 
 - 앱의 localeConfig를 자동으로 생성합니다.
-    - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는 앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수
-      있습니다.
-    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocaleConfig 파일을 생성하고 최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하여 수동으로
-      파일을 생성하거나 업데이트할 필요가
-      없어집니다.
+    - Android Studio Giraffe Canary 7과 AGP 8.1.0-alpha07 이상에서는
+      앱별 언어 기본 설정을 자동으로 지원하도록 앱을 구성할 수 있습니다.
+    - 프로젝트 리소스를 기반으로 Android Gradle 플러그인이 LocaleConfig 파일을 생성하고
+      최종 매니페스트 파일에 해당 파일에 대한 참조를 추가하므로 수동으로 파일을 생성하거나 업데이트할 필요가 없어집니다.
     - AGP는 앱 모듈의 res 폴더에 있는 리소스와 라이브러리 모듈의 디펜던시를 사용하여 LocaleConfig 파일에 포함될 로케일을 결정합니다.
 - 앱의 localeConfig를 동적으로 변경할 수 있습니다.
-    - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여 기기 시스템 설정에서 표시되는 앱의
-      지원되는 언어 목록을 동적으로 변경할 수
-      있습니다.
-    - 지역별로 지원되는 언어 목록을 변경하거나, A/B 테스트 수행, 현지화를 위해 서버 측 푸시를 사용하여 업데이트된 로케일 목록을 제공받는 경우 유용하게 사용할 수 있을
-      것입니다.
+    - LocaleManager의 setOverrideLocaleConfig 또는 getOverrideLocaleConfig를 이용하여
+      기기 시스템 설정에서 표시되는 앱의 지원되는 언어 목록을 동적으로 변경할 수 있습니다.
+    - 지역별로 지원되는 언어 목록을 변경하거나, A/B 테스트 수행, 현지화를 위해
+      서버 측 푸시를 사용하여 업데이트된 로케일 목록을 제공받는 경우 유용하게 사용할 수 있을 것입니다.
 - 입력기(Input Method Editor)가 앱 언어를 파악할 수 있습니다.
     - IME는 getApplicationLocales 메소드로 현재 앱의 언어를 확인하여 입력 언어를 일치시킬 수 있습니다.
 
